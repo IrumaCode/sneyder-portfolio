@@ -1,0 +1,45 @@
+---
+import { translations, defaultLang } from "../../i18n/translations";
+import ProjectCard from "../ui/ProjectCard.astro";
+import FeaturedProjectCard from "../ui/FeaturedProjectCard.astro";
+const t = translations[defaultLang];
+
+const cardLabels = {
+    classroom: t.projects.labels.classroom,
+    geek: t.projects.labels.geek,
+    comingSoon: t.projects.comingSoon,
+    repo: t.projects.viewRepo,
+    demo: t.projects.viewDemo
+};
+---
+
+<section id="projects" class="py-24 px-[5%] bg-gradient-to-b from-primary to-secondary">
+    <div class="max-w-6xl mx-auto">
+        <h2
+            data-anim="title"
+            data-i18n="projects.title"
+            class="relative inline-block w-full text-center text-4xl md:text-5xl text-accent mb-20 section-title-line"
+        >
+            {t.projects.title}
+        </h2>
+
+        <div data-anim="fade-up">
+            <FeaturedProjectCard />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8" data-anim="stagger">
+            {t.projects.items.map((project, index) => (
+                <ProjectCard
+                    title={project.title}
+                    description={project.description}
+                    tech={project.tech}
+                    index={index}
+                    repo={project.repo}
+                    demo={project.demo}
+                    status={project.status}
+                    labels={cardLabels}
+                />
+            ))}
+        </div>
+    </div>
+</section>
