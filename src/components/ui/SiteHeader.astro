@@ -1,0 +1,129 @@
+---
+/*
+  ============================================
+  SiteHeader
+  ============================================
+  Barra fija: logo · navegación por secciones · tema · idioma.
+  - Desktop: enlaces visibles; la sección activa se marca con aria-current.
+  - Móvil: botón de menú con panel desplegable (Escape o clic en enlace cierra).
+  - Incluye el skip link para usuarios de teclado.
+*/
+import { Icon } from "astro-icon/components";
+import Logo from "./Logo.astro";
+import ThemeSwitcher from "./ThemeSwitcher.astro";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import { translations, defaultLang } from "../../i18n/translations";
+
+const t = translations[defaultLang];
+const sections = ['experience', 'projects', 'skills', 'contact'] as const;
+const linkClass = "px-3 h-9 inline-flex items-center rounded-full text-fg-muted hover:text-fg hover:bg-accent/10 aria-[current=true]:bg-accent aria-[current=true]:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
+---
+
+<a
+    href="#main"
+    class="sr-only focus:not-sr-only focus:fixed focus:top-20 focus:left-4 focus:z-[70] focus:px-4 focus:py-2 focus:rounded-full focus:bg-accent focus:text-primary focus:font-bold"
+    data-i18n="ui.skipToContent"
+>{t.ui.skipToContent}</a>
+
+<header class="fixed top-4 inset-x-4 md:top-6 md:inset-x-6 z-50 flex items-center justify-between gap-2 pointer-events-none [&>*]:pointer-events-auto">
+    <!-- Logo -->
+    <a
+        href="#hero"
+        class="control-pill w-11 justify-center hover:scale-105 !bg-geek-black !border-[#e4bb5c]/40"
+        aria-label={t.ui.home}
+        data-i18n-attr="aria-label:ui.home"
+    >
+        <Logo class="w-8 h-8" idPrefix="logo-header" />
+    </a>
+
+    <!-- Navegación desktop -->
+    <nav class="hidden md:block" aria-label={t.ui.mainNav} data-i18n-attr="aria-label:ui.mainNav">
+        <ul class="control-pill gap-1 px-1 text-sm font-semibold">
+            {sections.map((id) => (
+                <li><a href={`#${id}`} class={linkClass} data-nav-link={id} data-i18n={`nav.${id}`}>{t.nav[id]}</a></li>
+            ))}
+        </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+        <ThemeSwitcher />
+        <LanguageSwitcher />
+
+        <!-- Menú móvil -->
+        <button
+            type="button"
+            id="menu-toggle"
+            class="control-pill w-11 justify-center md:hidden text-accent"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label={t.ui.openMenu}
+            data-i18n-attr="aria-label:ui.openMenu"
+        >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path class="menu-line-top origin-center transition-transform" d="M4 7h16"/>
+                <path class="menu-line-mid transition-opacity" d="M4 12h16"/>
+                <path class="menu-line-bottom origin-center transition-transform" d="M4 17h16"/>
+            </svg>
+        </button>
+    </div>
+
+    <nav
+        id="mobile-menu"
+        class="md:hidden absolute top-14 right-0 w-56 rounded-2xl border border-accent/30 bg-secondary/95 backdrop-blur-md shadow-xl p-2"
+        aria-label={t.ui.mainNav}
+        data-i18n-attr="aria-label:ui.mainNav"
+        hidden
+    >
+        <ul class="flex flex-col gap-1 text-base font-semibold">
+            {sections.map((id) => (
+                <li><a href={`#${id}`} class={`${linkClass} w-full h-11`} data-nav-link={id} data-i18n={`nav.${id}`}>{t.nav[id]}</a></li>
+            ))}
+        </ul>
+    </nav>
+</header>
+
+<script>
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+
+    function setMenu(open: boolean): void {
+        if (!toggle || !menu) return;
+        menu.hidden = !open;
+        toggle.setAttribute("aria-expanded", String(open));
+    }
+
+    toggle?.addEventListener("click", () => setMenu(menu?.hidden ?? false));
+    menu?.addEventListener("click", (event) => {
+        if ((event.target as HTMLElement).closest("a")) setMenu(false);
+    });
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && menu && !menu.hidden) {
+            setMenu(false);
+            toggle?.focus();
+        }
+    });
+
+    // Sección activa: la que ocupa la franja central del viewport
+    const links = document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]");
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            links.forEach((link) => {
+                const active = link.dataset.navLink === entry.target.id;
+                if (active) link.setAttribute("aria-current", "true");
+                else link.removeAttribute("aria-current");
+            });
+        });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+
+    ["hero", "experience", "projects", "skills", "contact"].forEach((id) => {
+        const section = document.getElementById(id);
+        if (section) observer.observe(section);
+    });
+</script>
+
+<style>
+    #menu-toggle[aria-expanded="true"] .menu-line-top    { transform: translateY(5px) rotate(45deg); }
+    #menu-toggle[aria-expanded="true"] .menu-line-mid    { opacity: 0; }
+    #menu-toggle[aria-expanded="true"] .menu-line-bottom { transform: translateY(-5px) rotate(-45deg); }
+</style>
