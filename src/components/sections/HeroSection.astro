@@ -1,0 +1,270 @@
+---
+import ScrollIndicator from "../ui/ScrollIndicator.astro";
+import { defaultLang, translations } from "../../i18n/translations";
+
+interface Props {
+    name: string;
+}
+const { name } = Astro.props;
+const t = translations[defaultLang];
+
+// El nombre se dibuja en dos líneas sobre la pizarra
+const [firstName = name, ...rest] = name.split(" ");
+const boardLines = rest.length > 1
+    ? [`${firstName} ${rest[0]}`, rest.slice(1).join(" ")]
+    : [name];
+---
+
+<section
+    id="hero"
+    class="relative min-h-svh flex items-center justify-center overflow-hidden bg-gradient-to-br from-secondary to-primary pt-24 pb-20"
+    aria-label={t.ui.heroLabel}
+    data-i18n-attr="aria-label:ui.heroLabel"
+>
+    <!-- Único h1 de la página; los paneles muestran el nombre de forma visual -->
+    <h1 class="sr-only">{name}</h1>
+
+    <!-- ===================== CLASSROOM (LIGHT): pizarra blanca con marco de madera ===================== -->
+    <div
+        class="classroom-panel wood-frame relative w-[92%] max-w-[75rem] min-h-[75svh] flex rounded-2xl p-3 md:p-4"
+        data-anim="hero-panel"
+    >
+        <!-- Tornillos del marco -->
+        <span class="screw top-1 left-1 md:top-1.5 md:left-1.5" aria-hidden="true"></span>
+        <span class="screw top-1 right-1 md:top-1.5 md:right-1.5" aria-hidden="true"></span>
+        <span class="screw bottom-1 left-1 md:bottom-1.5 md:left-1.5" aria-hidden="true"></span>
+        <span class="screw bottom-1 right-1 md:bottom-1.5 md:right-1.5" aria-hidden="true"></span>
+
+        <div class="relative flex-1 flex flex-col justify-center bg-board rounded-md overflow-hidden shadow-[inset_0_3px_10px_rgba(15,23,42,0.18)] px-6 py-12 md:px-14 lg:px-20">
+            <!-- Restos de marcador borrado + reflejo -->
+            <div class="board-ghosting absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+            <!-- Garabatos -->
+            <svg class="absolute top-6 right-8 w-14 h-14 text-board-red" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path data-board-doodle d="M30 6l6.5 15.5L53 23l-12.5 11 4 17L30 42l-14.5 9 4-17L7 23l16.5-1.5z"/>
+            </svg>
+            <svg class="absolute bottom-8 right-10 w-20 h-12 text-board-green hidden md:block" viewBox="0 0 90 50" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path data-board-doodle d="M22 10L6 25l16 15"/>
+                <path data-board-doodle d="M52 6L38 44"/>
+                <path data-board-doodle d="M68 10l16 15-16 15"/>
+            </svg>
+
+            <div class="relative z-10 grid gap-10 lg:grid-cols-[1fr_15rem] items-center">
+                <div class="text-left">
+                    <p class="font-hand font-bold text-2xl md:text-3xl text-board-red mb-1" data-board-greeting data-i18n="hero.greeting">
+                        {t.hero.greeting}
+                    </p>
+
+                    <!-- Nombre trazado con marcador (serif académica) -->
+                    <svg class="board-name block w-full max-w-[44rem] h-auto -ml-1" viewBox="0 0 760 210" aria-hidden="true">
+                        {boardLines.map((line, index) => (
+                            <text x="6" y={index === 0 ? 88 : 190}>{line}</text>
+                        ))}
+                    </svg>
+
+                    <!-- Rol + subrayado ondulado -->
+                    <div class="relative inline-block mt-3 mb-8">
+                        <p class="font-serif italic font-semibold text-xl md:text-2xl lg:text-3xl text-board-blue" data-board-role data-i18n="hero.role">
+                            {t.hero.role}
+                        </p>
+                        <svg class="absolute left-0 -bottom-4 w-full h-4 text-board-red" viewBox="0 0 300 16" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                            <path data-board-doodle d="M2 10C30 2 45 14 75 8s50-6 75 0 50 6 75 0 50-6 73 2" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                    <div class="board-intro text-base md:text-lg leading-relaxed text-board-ink/90" data-board-intro data-i18n="hero.intro">
+                        {t.hero.intro.map((line) => (<p class="mb-2">{line}</p>))}
+                    </div>
+                </div>
+
+                <!-- Post-it -->
+                <div class="relative justify-self-start lg:justify-self-center" data-board-sticky>
+                    <svg class="absolute -left-16 top-1/2 w-14 h-10 text-board-blue hidden lg:block" viewBox="0 0 60 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path data-board-doodle d="M56 8C40 2 18 6 8 28"/>
+                        <path data-board-doodle d="M4 18l4 11 11-3"/>
+                    </svg>
+                    <div class="relative w-52 md:w-56 rotate-3 bg-sticky p-5 pt-7 shadow-[0_12px_24px_rgba(15,23,42,0.18)]">
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-2 w-20 h-6 bg-white/70 shadow-sm" aria-hidden="true"></span>
+                        <p class="font-hand font-bold text-2xl leading-tight text-board-ink" data-i18n="hero.stickyNote">{t.hero.stickyNote}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repisa de madera con marcadores -->
+        <div class="wood-frame absolute -bottom-3 left-1/2 -translate-x-1/2 w-1/2 min-w-52 h-4 rounded-md" aria-hidden="true">
+            <span class="marker left-[10%] bg-board-blue"></span>
+            <span class="marker left-[40%] bg-board-red"></span>
+            <span class="marker left-[70%] bg-board-green"></span>
+        </div>
+    </div>
+
+    <!-- ===================== GEEK (DARK): terminal ===================== -->
+    <div
+        class="
+            geek-panel
+            w-[92%] max-w-[75rem] min-h-[75svh]
+            bg-geek-black
+            border-2 border-geek-green/40
+            rounded-lg
+            shadow-[0_0_40px_rgba(57,255,20,0.15),0_0_80px_rgba(0,217,255,0.08)]
+            relative
+            overflow-hidden
+            flex-col
+        "
+        data-anim="hero-panel"
+    >
+        <!-- Barra de ventana -->
+        <div class="flex items-center gap-2 px-4 py-3 bg-geek-dark border-b border-geek-green/20" aria-hidden="true">
+            <span class="w-3 h-3 rounded-full bg-[#ff5f56]"></span>
+            <span class="w-3 h-3 rounded-full bg-[#ffbd2e]"></span>
+            <span class="w-3 h-3 rounded-full bg-[#27c93f]"></span>
+            <span class="flex-1 text-center font-mono text-xs md:text-sm text-gray-400 pr-12">sneyder@portfolio: ~</span>
+        </div>
+
+        <!-- Cuerpo de la terminal -->
+        <div class="relative flex-1 flex flex-col justify-center px-6 py-8 md:px-12 lg:px-16 font-mono">
+            <div class="geek-scanlines absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+            <div class="relative z-10 max-w-4xl">
+                <p class="text-sm md:text-base text-gray-400 mb-2" data-geek-step aria-hidden="true">
+                    <span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span>
+                    <span class="text-geek-green" data-geek-type="whoami">whoami</span>
+                </p>
+                <p
+                    class="font-display text-5xl md:text-7xl lg:text-8xl text-geek-green text-shadow-crt leading-none mb-6 md:mb-8"
+                    data-geek-step
+                    data-geek-glitch
+                    aria-hidden="true"
+                >
+                    {name}
+                </p>
+
+                <p class="text-sm md:text-base text-gray-400 mb-2" data-geek-step aria-hidden="true">
+                    <span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span>
+                    <span class="text-geek-green" data-geek-type="cat role.txt">cat role.txt</span>
+                </p>
+                <p
+                    class="font-display text-2xl md:text-4xl text-geek-cyan tracking-wide mb-6 md:mb-8"
+                    data-geek-step
+                    data-i18n="hero.geekRole"
+                >{t.hero.geekRole}</p>
+
+                <p class="text-sm md:text-base text-gray-400 mb-2" data-geek-step aria-hidden="true">
+                    <span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span>
+                    <span class="text-geek-green" data-geek-type="./intro.sh">./intro.sh</span>
+                </p>
+                <div
+                    class="geek-intro text-sm md:text-base text-gray-300 leading-relaxed mb-4"
+                    data-geek-step
+                    data-i18n="hero.geekIntro"
+                >
+                    {t.hero.geekIntro.map((line) => (<p class="mb-2">{line}</p>))}
+                </div>
+
+                <p class="text-sm md:text-base" data-geek-step aria-hidden="true">
+                    <span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span>
+                    <span class="geek-cursor inline-block w-[0.6em] h-[1.1em] align-middle bg-geek-green"></span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Barra de estado estilo vim -->
+        <div class="flex justify-between gap-4 px-4 py-1.5 bg-geek-green text-geek-black font-mono text-[0.6875rem] md:text-xs font-bold" aria-hidden="true">
+            <span>-- NORMAL --</span>
+            <span class="hidden sm:inline">portfolio.astro [+]</span>
+            <span>utf-8 · ln 9, col 24</span>
+        </div>
+    </div>
+
+    <ScrollIndicator />
+</section>
+
+<script>
+    import { initHeroIntros } from "../../utils/hero-intros";
+    initHeroIntros();
+</script>
+
+<style>
+    /* ---- Classroom: pizarra blanca ---- */
+    .board-ghosting {
+        background:
+            radial-gradient(ellipse 30% 18% at 78% 72%, rgba(100, 116, 139, 0.07), transparent 70%),
+            radial-gradient(ellipse 22% 12% at 18% 20%, rgba(29, 78, 216, 0.05), transparent 70%),
+            linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.9) 48%, transparent 56%);
+    }
+
+    .board-name text {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 96px;
+        letter-spacing: -1px;
+        fill: var(--color-board-ink);
+        stroke: var(--color-board-ink);
+        stroke-width: 1px;
+        stroke-linejoin: round;
+    }
+
+    /* Marco de roble: degradado + veta (ruido SVG estirado) + bisel */
+    .wood-frame {
+        background-color: var(--color-board-frame);
+        background-image:
+            url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27400%27 height=%27120%27%3E%3Cfilter id=%27g%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.012 0.35%27 numOctaves=%274%27 seed=%277%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.22 0 0 0 0 0.12 0 0 0 0 0.04 0 0 0 0.55 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23g)%27/%3E%3C/svg%3E"),
+            linear-gradient(180deg, var(--color-wood-light), var(--color-board-frame) 45%, var(--color-wood-dark));
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.3),
+            inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+            0 24px 60px rgba(15, 23, 42, 0.25);
+    }
+
+    .screw {
+        position: absolute;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: radial-gradient(circle at 35% 35%, #f1f5f9, #94a3b8 60%, #475569);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+    }
+
+    .marker {
+        position: absolute;
+        top: -0.55rem;
+        width: 3.25rem;
+        height: 0.65rem;
+        border-radius: 9999px;
+        box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25), 0 2px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Check verde delante de cada línea (también tras cambiar idioma) */
+    .board-intro > :global(p)::before {
+        content: '✓ ';
+        color: var(--color-board-green);
+        font-weight: 700;
+    }
+
+    /* ---- Geek: terminal ---- */
+    .geek-scanlines {
+        background:
+            repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0.25) 1px, transparent 1px, transparent 3px),
+            radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.55) 100%);
+        animation: crt-flicker 4s infinite steps(1);
+    }
+
+    .geek-intro > :global(p)::before {
+        content: '> ';
+        color: var(--color-geek-pink);
+    }
+
+    .geek-cursor {
+        animation: blink 1s steps(1) infinite;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+    @keyframes crt-flicker {
+        0%, 100% { opacity: 1; }
+        92%      { opacity: 0.85; }
+        94%      { opacity: 1; }
+    }
+</style>
