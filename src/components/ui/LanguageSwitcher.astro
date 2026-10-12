@@ -1,0 +1,94 @@
+---
+import { translations, defaultLang } from "../../i18n/translations";
+const t = translations[defaultLang];
+const buttonClass = "h-full px-4 tracking-wider cursor-pointer text-accent transition-colors duration-300 aria-pressed:bg-accent aria-pressed:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent";
+---
+
+<!-- Pill toggle: [ ES | EN ] -->
+<div
+    class="control-pill overflow-hidden"
+    role="group"
+    aria-label={t.ui.languageGroup}
+    data-i18n-attr="aria-label:ui.languageGroup"
+>
+    <button type="button" id="lang-es" lang="es" aria-label="Español" aria-pressed="true" class={buttonClass}>ES</button>
+    <span class="w-px h-5 bg-accent/30" aria-hidden="true"></span>
+    <button type="button" id="lang-en" lang="en" aria-label="English" aria-pressed="false" class={buttonClass}>EN</button>
+</div>
+
+<script>
+import { translations, type Language, defaultLang } from "../../i18n/translations";
+
+let currentLang: Language = defaultLang;
+
+const btnEs = document.getElementById("lang-es") as HTMLButtonElement | null;
+const btnEn = document.getElementById("lang-en") as HTMLButtonElement | null;
+
+function initLanguage(): void {
+    const saved = localStorage.getItem("preferred-lang") as Language | null;
+    if (saved === "es" || saved === "en") {
+        currentLang = saved;
+    } else {
+        const browserLang = navigator.language.slice(0, 2);
+        currentLang = browserLang === "en" ? "en" : "es";
+    }
+    updateUI();
+    translatePage();
+}
+
+function updateUI(): void {
+    document.documentElement.lang = currentLang;
+    btnEs?.setAttribute("aria-pressed", String(currentLang === "es"));
+    btnEn?.setAttribute("aria-pressed", String(currentLang === "en"));
+}
+
+function resolve(path: string, source: unknown): unknown {
+    return path.split(".").reduce((obj: any, k) => obj?.[k], source);
+}
+
+function translatePage(): void {
+    const t = translations[currentLang];
+
+    // Contenido: data-i18n="ruta.al.texto"
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (!key) return;
+        const value = resolve(key, t);
+        if (typeof value === "string") {
+            if (value.includes("<")) {
+                el.innerHTML = value;
+            } else {
+                el.textContent = value;
+            }
+        } else if (Array.isArray(value)) {
+            el.innerHTML = value.map(line => `<p class="mb-2">${line}</p>`).join("");
+        }
+    });
+
+    // Atributos: data-i18n-attr="aria-label:ruta.al.texto"
+    document.querySelectorAll("[data-i18n-attr]").forEach(el => {
+        const [attr, key] = (el.getAttribute("data-i18n-attr") ?? "").split(":");
+        const value = key ? resolve(key, t) : undefined;
+        if (attr && typeof value === "string") el.setAttribute(attr, value);
+    });
+
+    window.dispatchEvent(new CustomEvent("languageChanged", {
+        detail: { lang: currentLang }
+    }));
+}
+
+function setLang(lang: Language): void {
+    currentLang = lang;
+    localStorage.setItem("preferred-lang", currentLang);
+    updateUI();
+    translatePage();
+}
+
+btnEs?.addEventListener("click", () => setLang("es"));
+btnEn?.addEventListener("click", () => setLang("en"));
+
+document.addEventListener("DOMContentLoaded", initLanguage);
+if (document.readyState !== "loading") {
+    initLanguage();
+}
+</script>
