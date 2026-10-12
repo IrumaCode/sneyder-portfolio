@@ -1,0 +1,179 @@
+---
+import { Icon } from "astro-icon/components";
+import { translations, defaultLang } from "../../i18n/translations";
+
+type CategoryKey = keyof typeof translations.es.skills.categories;
+
+interface Skill {
+    name: string;
+    icon: string;      // Iconify: "devicon:*", "simple-icons:*" o local en src/icons/
+    color?: string;    // Para iconos monocromo (simple-icons); por defecto currentColor
+}
+
+interface Category {
+    key: CategoryKey;
+    folder: string;    // Ruta que se muestra en el modo geek (~/skills/<folder>)
+    wide?: boolean;    // Ocupa dos columnas en desktop
+    skills: Skill[];
+}
+
+// Iconos SVG locales (astro-icon): sin CDN externo
+const skillCategories: Category[] = [
+    {
+        key: 'frontend',
+        folder: 'frontend',
+        wide: true,
+        skills: [
+            { name: 'React',       icon: 'devicon:react' },
+            { name: 'Vue.js',      icon: 'devicon:vuejs' },
+            { name: 'TypeScript',  icon: 'devicon:typescript' },
+            { name: 'JavaScript',  icon: 'devicon:javascript' },
+            { name: 'HTML5',       icon: 'devicon:html5' },
+            { name: 'CSS3',        icon: 'devicon:css3' },
+            { name: 'Tailwind',    icon: 'devicon:tailwindcss' },
+        ]
+    },
+    {
+        key: 'backend',
+        folder: 'backend',
+        skills: [
+            { name: 'PHP',         icon: 'devicon:php' },
+            { name: 'Symfony',     icon: 'simple-icons:symfony' },
+            { name: 'Node.js',     icon: 'devicon:nodejs' },
+            { name: 'C# / .NET',   icon: 'devicon:csharp' },
+        ]
+    },
+    {
+        key: 'databases',
+        folder: 'databases',
+        skills: [
+            { name: 'MySQL',       icon: 'devicon:mysql' },
+            { name: 'MariaDB',     icon: 'devicon:mariadb' },
+            { name: 'PostgreSQL',  icon: 'devicon:postgresql' },
+            { name: 'SQLite',      icon: 'devicon:sqlite' },
+            { name: 'Firebase',    icon: 'devicon:firebase' },
+            { name: 'MongoDB',     icon: 'devicon:mongodb' },
+        ]
+    },
+    {
+        key: 'tools',
+        folder: 'tools',
+        skills: [
+            { name: 'Git',         icon: 'devicon:git' },
+            { name: 'Docker',      icon: 'devicon:docker' },
+            { name: 'VS Code',     icon: 'devicon:vscode' },
+            { name: 'Figma',       icon: 'devicon:figma' },
+        ]
+    },
+    {
+        key: 'ai',
+        folder: 'ai-agents',
+        skills: [
+            { name: 'Claude Code',    icon: 'simple-icons:claudecode', color: '#d97757' },
+            { name: 'GitHub Copilot', icon: 'simple-icons:githubcopilot' },
+            { name: 'Antigravity',    icon: 'antigravity' },
+            { name: 'Codex',          icon: 'simple-icons:openai' },
+        ]
+    },
+];
+
+const t = translations[defaultLang];
+---
+
+<section id="skills" class="py-24 px-[5%] bg-gradient-to-b from-secondary to-primary">
+    <div class="max-w-6xl mx-auto">
+        <h2
+            data-anim="title"
+            data-i18n="skills.title"
+            class="relative inline-block w-full text-center text-4xl md:text-5xl text-accent mb-20 section-title-line"
+        >
+            {t.skills.title}
+        </h2>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-anim="stagger">
+            {skillCategories.map((category) => (
+                <article class:list={["skill-card relative rounded-xl border overflow-hidden", category.wide && "lg:col-span-2"]}>
+                    <!-- Cabecera classroom: ficha con chincheta -->
+                    <header class="when-classroom px-5 pt-6 pb-2">
+                        <span class="pin" aria-hidden="true"></span>
+                        <h3 class="font-heading italic text-xl text-accent" data-i18n={`skills.categories.${category.key}`}>
+                            {t.skills.categories[category.key]}
+                        </h3>
+                    </header>
+
+                    <!-- Cabecera geek: ventana de terminal -->
+                    <header class="when-geek">
+                        <div class="flex items-center gap-1.5 px-4 py-2 bg-geek-dark border-b border-accent/15" aria-hidden="true">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></span>
+                            <span class="ml-2 font-mono text-xs text-fg-subtle">~/skills/{category.folder}</span>
+                        </div>
+                        <h3 class="px-5 pt-4 font-mono text-sm text-fg-muted">
+                            <span class="text-geek-pink" aria-hidden="true">$</span>
+                            <span class="text-accent" aria-hidden="true">ls</span>
+                            <span class="text-highlight" data-i18n={`skills.categories.${category.key}`}>{t.skills.categories[category.key]}</span>
+                        </h3>
+                    </header>
+
+                    <ul class="flex flex-wrap gap-2 px-5 pt-3 pb-5" data-anim="pop">
+                        {category.skills.map((skill) => (
+                            <li class="skill-chip inline-flex items-center gap-2 h-10 px-3 rounded-lg border text-sm text-fg">
+                                <Icon
+                                    name={skill.icon}
+                                    class="w-5 h-5 shrink-0"
+                                    style={skill.color ? `color: ${skill.color}` : undefined}
+                                    aria-hidden="true"
+                                />
+                                {skill.name}
+                            </li>
+                        ))}
+                    </ul>
+                </article>
+            ))}
+        </div>
+    </div>
+</section>
+
+<style>
+    /* ---- Classroom: ficha rayada con margen rojo y chincheta ---- */
+    :global([data-theme="classroom"]) .skill-card {
+        background-color: #fffdf7;
+        background-image:
+            linear-gradient(180deg, transparent 3.6rem, rgba(220, 38, 38, 0.4) 3.6rem, rgba(220, 38, 38, 0.4) calc(3.6rem + 1.5px), transparent calc(3.6rem + 1.5px)),
+            repeating-linear-gradient(180deg, transparent 0, transparent 1.95rem, rgba(29, 78, 216, 0.1) 1.95rem, rgba(29, 78, 216, 0.1) 2rem);
+        border-color: rgba(30, 41, 59, 0.1);
+        box-shadow: 0 10px 25px -12px rgba(15, 23, 42, 0.25);
+    }
+
+    :global([data-theme="classroom"]) .skill-chip {
+        background: #ffffff;
+        border-color: rgba(30, 41, 59, 0.12);
+    }
+
+    .pin {
+        position: absolute;
+        top: 0.55rem;
+        left: 50%;
+        width: 0.9rem;
+        height: 0.9rem;
+        border-radius: 9999px;
+        translate: -50% 0;
+        background: radial-gradient(circle at 35% 35%, #fca5a5, var(--color-board-red) 55%, #7f1d1d);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.35);
+    }
+
+    /* ---- Geek: ventana de terminal ---- */
+    :global([data-theme="geek"]) .skill-card {
+        background: var(--color-geek-black);
+        border-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
+        box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.04), 0 10px 30px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    :global([data-theme="geek"]) .skill-chip {
+        background: var(--color-geek-dark);
+        border-color: rgba(139, 148, 158, 0.2);
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+    }
+</style>

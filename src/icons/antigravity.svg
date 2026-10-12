@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Antigravity: arco tipo campana; base azul, cima verde → amarillo → rojo -->
+  <defs>
+    <path id="agy-arch" d="M9 82C24 72 31 14 50 14s26 58 41 68c4 3 1 9-4 7C72 84 64 50 50 50S28 84 13 89c-5 2-8-4-4-7z"/>
+    <radialGradient id="agy-g" cx="34" cy="30" r="30" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#34a853"/><stop offset="1" stop-color="#34a853" stop-opacity="0"/></radialGradient>
+    <radialGradient id="agy-y" cx="50" cy="12" r="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fbbc04"/><stop offset="1" stop-color="#fbbc04" stop-opacity="0"/></radialGradient>
+    <radialGradient id="agy-r" cx="66" cy="22" r="26" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ea4335"/><stop offset="1" stop-color="#ea4335" stop-opacity="0"/></radialGradient>
+  </defs>
+  <use href="#agy-arch" fill="#4285f4"/>
+  <use href="#agy-arch" fill="url(#agy-g)"/>
+  <use href="#agy-arch" fill="url(#agy-r)"/>
+  <use href="#agy-arch" fill="url(#agy-y)"/>
+</svg>
