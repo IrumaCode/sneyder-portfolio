@@ -1,0 +1,171 @@
+---
+import { translations, defaultLang, careerDates, yearsSince } from "../../i18n/translations";
+const t = translations[defaultLang];
+
+// Años como desarrollador calculados en build desde la fecha de ingreso
+const devYears = yearsSince(careerDates.devStart);
+const devYearsLabel = `${devYears}+`;
+const teachYearsLabel = `${careerDates.teachingYears}`;
+
+// Regla de años en el aula (2016 → 2024)
+const TEACHING_START = 2016;
+const teachingYears = Array.from({ length: careerDates.teachingYears + 1 }, (_, i) => TEACHING_START + i);
+---
+
+<section id="experience" class="py-24 px-[5%] bg-gradient-to-b from-secondary to-primary">
+    <div class="max-w-5xl mx-auto">
+        <h2
+            data-anim="title"
+            data-i18n="experience.title"
+            class="relative inline-block w-full text-center text-4xl md:text-5xl text-accent mb-20 section-title-line"
+        >
+            {t.experience.title}
+        </h2>
+
+        <!-- ============ Puesto actual ============ -->
+        <article
+            class="relative overflow-hidden rounded-2xl border border-accent/30 bg-secondary p-6 md:p-10 shadow-xl shadow-accent/5"
+            data-anim="fade-up"
+        >
+            <span class="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-accent to-highlight" aria-hidden="true"></span>
+
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <span class="inline-flex items-center gap-2 text-xs font-bold tracking-widest px-3 py-1 rounded-full bg-accent text-primary">
+                    <span class="relative flex w-2 h-2" aria-hidden="true">
+                        <span class="absolute inline-flex w-full h-full rounded-full bg-primary opacity-75 animate-ping"></span>
+                        <span class="relative inline-flex w-2 h-2 rounded-full bg-primary"></span>
+                    </span>
+                    <span data-i18n="experience.current.badge">{t.experience.current.badge}</span>
+                </span>
+                <span class="font-mono text-sm text-fg-subtle">
+                    <span data-i18n="experience.current.period">{t.experience.current.period}</span>
+                    · {devYearsLabel}
+                </span>
+            </div>
+
+            <h3 class="font-heading text-2xl md:text-3xl text-fg mb-1" data-i18n="experience.current.title">
+                {t.experience.current.title}
+            </h3>
+            <p class="text-accent font-semibold mb-5" data-i18n="experience.current.company">
+                {t.experience.current.company}
+            </p>
+            <p class="text-fg-muted leading-relaxed mb-6 max-w-3xl" data-i18n="experience.current.description">
+                {t.experience.current.description}
+            </p>
+
+            <ul class="flex flex-wrap gap-2">
+                {t.experience.current.highlights.map((tag, tagIndex) => (
+                    <li
+                        class="text-xs px-3 py-1 rounded-full bg-primary text-highlight border border-highlight/30 font-mono"
+                        data-i18n={`experience.current.highlights.${tagIndex}`}
+                    >
+                        {tag}
+                    </li>
+                ))}
+            </ul>
+        </article>
+
+        <!-- ============ Fusión Dev + Docencia (Venn) ============ -->
+        <div class="mt-24 text-center" data-anim="fusion">
+            <p class="font-mono text-sm tracking-[0.25em] uppercase text-fg-subtle mb-10" data-i18n="experience.fusion.eyebrow">
+                {t.experience.fusion.eyebrow}
+            </p>
+
+            <div class="relative flex justify-center items-center h-48 md:h-64" aria-hidden="true">
+                <div class="fusion-circle -mr-8 md:-mr-14 border-accent bg-accent/10 pr-12 md:pr-20" data-fusion="left">
+                    <span class="font-heading text-5xl md:text-7xl text-accent leading-none" data-anim="counter">{devYearsLabel}</span>
+                    <span class="mt-2 text-xs md:text-sm text-fg-muted max-w-[6rem] md:max-w-[8rem]" data-i18n="experience.fusion.devLabel">{t.experience.fusion.devLabel}</span>
+                </div>
+                <div class="fusion-circle -ml-8 md:-ml-14 border-highlight bg-highlight/10 pl-12 md:pl-20" data-fusion="right">
+                    <span class="font-heading text-5xl md:text-7xl text-highlight leading-none" data-anim="counter">{teachYearsLabel}</span>
+                    <span class="mt-2 text-xs md:text-sm text-fg-muted max-w-[6rem] md:max-w-[8rem]" data-i18n="experience.fusion.teachLabel">{t.experience.fusion.teachLabel}</span>
+                </div>
+                <span
+                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 grid place-items-center w-11 h-11 md:w-14 md:h-14 rounded-full bg-fg text-primary font-heading text-xl md:text-2xl shadow-lg"
+                    data-fusion="badge"
+                >&lt;/&gt;</span>
+            </div>
+
+            <!-- Texto equivalente para lectores de pantalla -->
+            <p class="sr-only">
+                {devYearsLabel} <span data-i18n="experience.fusion.devLabel">{t.experience.fusion.devLabel}</span>,
+                {teachYearsLabel} <span data-i18n="experience.fusion.teachLabel">{t.experience.fusion.teachLabel}</span>.
+            </p>
+
+            <p class="mt-10 font-heading text-2xl md:text-4xl text-fg max-w-2xl mx-auto" data-fusion="result">
+                = <span data-i18n="experience.fusion.result">{t.experience.fusion.result}</span>
+            </p>
+        </div>
+
+        <!-- ============ Lo que dejó el aula: habilidades blandas ============ -->
+        <div class="mt-24">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mb-8" data-anim="fade-up">
+                <h3 class="font-heading text-2xl md:text-3xl text-fg" data-i18n="experience.teaching.title">
+                    {t.experience.teaching.title}
+                </h3>
+                <p class="text-sm text-fg-subtle md:text-right">
+                    <span class="block font-semibold text-fg-muted" data-i18n="experience.teaching.role">{t.experience.teaching.role}</span>
+                    <span data-i18n="experience.teaching.org">{t.experience.teaching.org}</span> ·
+                    <span class="font-mono" data-i18n="experience.teaching.period">{t.experience.teaching.period}</span>
+                </p>
+            </div>
+
+            <!-- Regla de años en el aula: se dibuja con el scroll -->
+            <div class="relative mb-10 pt-2" data-anim="years-ruler" aria-hidden="true">
+                <div class="absolute left-0 right-0 top-[1.15rem] h-0.5 bg-accent/15 rounded-full"></div>
+                <div class="absolute left-0 right-0 top-[1.15rem] h-0.5 bg-gradient-to-r from-accent to-highlight rounded-full origin-left" data-ruler-line></div>
+                <ol class="relative flex justify-between">
+                    {teachingYears.map((year, index) => (
+                        <li class="flex flex-col items-center gap-2" data-ruler-year>
+                            <span class="w-3 h-3 rounded-full border-2 border-accent bg-primary"></span>
+                            <span class:list={["font-mono text-[0.625rem] sm:text-xs text-fg-subtle", index % 2 === 1 && "hidden sm:inline"]}>{year}</span>
+                        </li>
+                    ))}
+                </ol>
+                <p class="mt-3 text-center font-heading text-lg text-fg">
+                    <span class="text-accent" data-anim="counter">{teachYearsLabel}</span>
+                    <span data-i18n="experience.teaching.rulerLabel">{t.experience.teaching.rulerLabel}</span>
+                </p>
+            </div>
+
+            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 [perspective:1000px]" data-anim="flip">
+                {t.experience.teaching.skills.map((skill, index) => (
+                    <li class="rounded-xl border border-accent/15 bg-secondary/70 p-5">
+                        <span class="inline-grid place-items-center w-11 h-11 rounded-full bg-accent/10 text-2xl" aria-hidden="true" data-flip-icon>{skill.icon}</span>
+                        <h4 class="mt-2 font-semibold text-fg" data-i18n={`experience.teaching.skills.${index}.title`}>
+                            {skill.title}
+                        </h4>
+                        <p class="mt-1 text-sm leading-relaxed text-fg-muted" data-i18n={`experience.teaching.skills.${index}.description`}>
+                            {skill.description}
+                        </p>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </div>
+</section>
+
+<style>
+    .fusion-circle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 11rem;
+        height: 11rem;
+        border-width: 3px;
+        border-radius: 9999px;
+        mix-blend-mode: multiply;
+    }
+
+    :global([data-theme="geek"]) .fusion-circle {
+        mix-blend-mode: screen;
+    }
+
+    @media (min-width: 768px) {
+        .fusion-circle {
+            width: 15rem;
+            height: 15rem;
+        }
+    }
+</style>
