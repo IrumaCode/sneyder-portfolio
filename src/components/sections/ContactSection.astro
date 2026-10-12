@@ -1,0 +1,116 @@
+---
+import { Icon } from "astro-icon/components";
+import Logo from "../ui/Logo.astro";
+import { translations, defaultLang } from "../../i18n/translations";
+const t = translations[defaultLang];
+
+const EMAIL = "zsneyder@gmail.com";
+const LINKEDIN = "https://www.linkedin.com/in/sneyderla/";
+const GITHUB = "https://github.com/sneyder-leguia";
+
+const buttonClass = "inline-flex items-center justify-center gap-3 h-14 min-w-44 px-7 rounded-full font-bold border transition-[scale,background-color,border-color,box-shadow] duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary";
+---
+
+<section id="contact" class="py-24 px-[5%] bg-gradient-to-b from-primary to-secondary">
+    <div class="max-w-2xl mx-auto text-center">
+        <h2
+            data-anim="title"
+            data-i18n="contact.title"
+            class="relative inline-block text-4xl md:text-5xl text-accent mb-6 section-title-line"
+        >
+            {t.contact.title}
+        </h2>
+
+        <p
+            data-anim="fade-up"
+            data-i18n="contact.subtitle"
+            class="text-fg-muted text-lg leading-relaxed mt-10 mb-12"
+        >
+            {t.contact.subtitle}
+        </p>
+
+        <!-- Canales de contacto -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-anim="stagger">
+            <a
+                href={`mailto:${EMAIL}`}
+                class={`${buttonClass} bg-secondary text-fg border-accent/50 hover:border-accent shadow-lg shadow-accent/10 hover:shadow-accent/30`}
+                aria-label={t.contact.emailLabel}
+                data-i18n-attr="aria-label:contact.emailLabel"
+            >
+                <Icon name="logos:google-gmail" class="w-6 h-6" aria-hidden="true" />
+                <span data-i18n="contact.emailButton">{t.contact.emailButton}</span>
+            </a>
+
+            <a
+                href={LINKEDIN}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`${buttonClass} bg-secondary text-fg border-accent/30 hover:border-accent`}
+                aria-label={t.contact.linkedinLabel}
+                data-i18n-attr="aria-label:contact.linkedinLabel"
+            >
+                <Icon name="logos:linkedin-icon" class="w-5 h-5" aria-hidden="true" />
+                LinkedIn
+            </a>
+
+            <a
+                href={GITHUB}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`${buttonClass} bg-secondary text-fg border-accent/30 hover:border-accent`}
+                aria-label={t.contact.githubLabel}
+                data-i18n-attr="aria-label:contact.githubLabel"
+            >
+                <Icon name="simple-icons:github" class="w-5 h-5" aria-hidden="true" />
+                GitHub
+            </a>
+        </div>
+
+        <!-- Alternativa sin cliente de correo: copiar la dirección -->
+        <div class="mt-6 mb-16 h-10 flex items-center justify-center">
+            <button
+                type="button"
+                id="copy-email"
+                data-email={EMAIL}
+                class="inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm text-fg-muted hover:text-fg hover:bg-accent/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-i18n="contact.copyEmail">{t.contact.copyEmail}</span>
+            </button>
+            <p id="copy-email-status" class="text-sm font-semibold text-highlight" role="status" aria-live="polite" hidden>
+                <span data-i18n="contact.copied">{t.contact.copied}</span>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t border-accent/10 pt-8 flex flex-col items-center gap-4">
+            <Logo class="w-14 h-14" idPrefix="logo-footer" />
+            <p class="text-fg-subtle text-sm font-mono">
+                &copy; {new Date().getFullYear()} Sneyder Leguía Arrieta — <span data-i18n="contact.builtWith">{t.contact.builtWith}</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<script>
+    const COPIED_MS = 2200;
+    const button = document.getElementById("copy-email");
+    const status = document.getElementById("copy-email-status");
+
+    button?.addEventListener("click", async () => {
+        const email = button.dataset.email ?? "";
+        try {
+            await navigator.clipboard.writeText(email);
+        } catch {
+            // Sin permiso de portapapeles: abrimos el cliente de correo como alternativa
+            window.location.href = `mailto:${email}`;
+            return;
+        }
+        button.hidden = true;
+        if (status) status.hidden = false;
+        setTimeout(() => {
+            button.hidden = false;
+            if (status) status.hidden = true;
+        }, COPIED_MS);
+    });
+</script>
