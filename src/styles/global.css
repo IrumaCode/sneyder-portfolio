@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/*  ====================================================
+    DESIGN TOKENS - Light / Dark
+    =====================================================
+    data-theme="classroom" → LIGHT · pizarra blanca y marcadores
+    data-theme="geek"      → DARK  · terminal, CRT, retro gaming
+
+    Los tokens semánticos (primary, secondary, accent, fg, highlight…)
+    se declaran en @theme con el valor light y se sobrescriben en
+    [data-theme="geek"]. Así `bg-primary`, `text-fg`, `border-accent/30`
+    cambian solos con el tema, sin duplicar clases.
+    ===================================================== */
+
+@theme static {
+    /* ---- Semánticos (valor light = classroom) ---- */
+    --color-primary: #f5f3ee;      /* fondo de página (papel) */
+    --color-secondary: #ffffff;    /* superficies / tarjetas */
+    --color-accent: #1d4ed8;       /* marcador azul: títulos, CTA */
+    --color-highlight: #15803d;    /* marcador verde: tags, categorías */
+    --color-fg: #1e293b;           /* texto principal */
+    --color-fg-muted: #475569;     /* texto secundario */
+    --color-fg-subtle: #5b6472;    /* metadatos, footer */
+
+    /* ---- Pizarra blanca (hero classroom) ---- */
+    --color-board: #fdfdfb;
+    --color-board-frame: #8b5a2b;      /* madera */
+    --color-wood-light: #b07a43;
+    --color-wood-dark: #5e3a1a;
+    --color-board-ink: #1e293b;
+    --color-board-blue: #1d4ed8;
+    --color-board-red: #dc2626;
+    --color-board-green: #15803d;
+    --color-sticky: #fde68a;
+
+    /* ---- Terminal (hero geek, fijos en ambos temas) ---- */
+    --color-geek-green: #39ff14;
+    --color-geek-cyan: #00d9ff;
+    --color-geek-purple: #9d4edd;
+    --color-geek-pink: #ff2e88;
+    --color-geek-dark: #161b22;
+    --color-geek-black: #0d1117;
+
+    /* ---- Tipografía ---- */
+    --font-body: 'Poppins', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --font-display: 'VT323', 'Courier New', monospace;
+    --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-hand: 'Caveat', 'Comic Sans MS', cursive;
+    --font-heading: var(--font-serif);  /* cambia con el tema */
+}
+
+/* ---- DARK: Geek ---- */
+[data-theme="geek"] {
+    color-scheme: dark;
+    --color-primary: #0d1117;
+    --color-secondary: #161b22;
+    --color-accent: #3fb950;
+    --color-highlight: #00d9ff;
+    --color-fg: #e6edf3;
+    --color-fg-muted: #b1bac4;
+    --color-fg-subtle: #8b949e;
+    --font-heading: var(--font-display);
+}
+
+[data-theme="classroom"] {
+    color-scheme: light;
+}
+
+/* ====================================================
+    BASE STYLES
+    ===================================================== */
+html {
+    scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ====================================================
+    HERO: un panel por tema (CSS puro, sin parpadeo)
+    ===================================================== */
+.geek-panel { display: none; }
+[data-theme="geek"] .geek-panel { display: flex; }
+[data-theme="geek"] .classroom-panel { display: none; }
+
+/* Iconos/etiquetas del botón de tema */
+[data-theme="geek"] .when-classroom,
+[data-theme="classroom"] .when-geek,
+:root:not([data-theme]) .when-geek { display: none; }
+
+/* ====================================================
+    UTILITY CLASSES
+    ===================================================== */
+/* Brillo de fósforo + aberración cromática (modo geek) */
+.text-shadow-crt {
+    text-shadow:
+        0 0 6px rgba(57, 255, 20, 0.7),
+        0 0 24px rgba(57, 255, 20, 0.3),
+        2px 0 0 rgba(255, 46, 136, 0.45),
+        -2px 0 0 rgba(0, 217, 255, 0.45);
+}
+
+/* Section title + subrayado (GSAP anima --line-scale) */
+.section-title-line {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+/* VT323 solo tiene un peso: evitamos la negrita sintética */
+[data-theme="geek"] .section-title-line,
+[data-theme="geek"] .font-heading {
+    font-weight: 400;
+}
+
+.section-title-line::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), var(--color-highlight), transparent);
+    transform: scaleX(var(--line-scale, 1));
+    transform-origin: center;
+}
+
+/* En modo geek los títulos parecen un prompt */
+[data-theme="geek"] .section-title-line::before {
+    content: '$ ';
+    color: var(--color-highlight);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ====================================================
+    CONTROLES FLOTANTES (tema / idioma): misma altura,
+    mismo estilo, objetivo táctil de 44px
+    ===================================================== */
+@utility control-pill {
+    @apply inline-flex items-center h-11 rounded-full border border-accent/30 bg-secondary/90 backdrop-blur-md shadow-lg text-sm font-bold cursor-pointer transition-[scale,border-color,background-color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary;
+}

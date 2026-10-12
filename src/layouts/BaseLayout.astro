@@ -1,0 +1,97 @@
+---
+// =============================================
+// FRONTMATTER (Zona de javaScript del servidor)
+// =============================================
+// Aquí va la logica que se ejecuta en BUILDTIME, no en el navegador
+// Similar a un controlador en de Symfony pero se ejecuta al compilar
+
+// Props: datos que recibe este componente (como párametros de Twig)
+interface Props {
+    title: string;
+    description?: string;
+    lang?: 'es' | 'en';
+}
+
+// Desestructuración con valores por defecto
+const {
+    title,
+    description = "Portfolio de Sneyder Leguía - Desarrollador Web Fullstack",
+    lang = 'es'
+} = Astro.props;
+
+// URLs absolutas a partir de `site` (astro.config.mjs): las redes sociales y Google
+// ignoran rutas relativas en canonical / og:image
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL('/og-image.png', Astro.site).href;
+
+// Importamos los estilos globales
+import '../styles/global.css';
+
+// Importamos la fuente instalada en el proyecto
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/playfair-display/400-italic.css';
+import '@fontsource/playfair-display/600-italic.css';
+import '@fontsource/caveat/500.css';
+import '@fontsource/caveat/700.css';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/700.css';
+import '@fontsource/vt323';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/700.css';
+---
+
+<!DOCTYPE html>
+<html lang={lang} data-theme="classroom">
+    <head>
+        <meta charset="UTF-8" />
+
+        <!-- Tema antes del primer pintado: preferencia guardada o la del sistema -->
+        <script is:inline>
+            (function () {
+                var theme;
+                try { theme = localStorage.getItem("preferred-theme"); } catch (e) {}
+                if (theme === "manga") theme = "geek";
+                if (theme !== "classroom" && theme !== "geek") {
+                    theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "geek" : "classroom";
+                }
+                document.documentElement.setAttribute("data-theme", theme);
+            })();
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        <link rel="canonical" href={canonicalUrl} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f3ee" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d1117" />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+
+        <!-- Open Graph -->
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={ogImageUrl} />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImageUrl} />
+
+        <meta name="generator" content={Astro.generator} />
+
+        <slot name="head"/>
+    </head>
+    <body class="bg-primary text-fg font-body overflow-x-hidden">
+        <slot />
+        <slot name="scripts" />
+    </body>
+</html>
