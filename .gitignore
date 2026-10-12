@@ -11,16 +11,27 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.log
+*.tmp
 
 
-# environment variables
+# environment variables (nunca subir credenciales)
 .env
-.env.production
+.env.*
+!.env.example
 
-# macOS-specific files
+# OS files
 .DS_Store
+Thumbs.db
+desktop.ini
 
 # jetbrains setting folder
 .idea/
+
+# deploy
+.vercel/
+.netlify/
+
+# configuración local de agentes IA (no se publica)
 .claude/
-CLAUDE.MD
+CLAUDE.md
