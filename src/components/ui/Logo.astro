@@ -1,0 +1,20 @@
+---
+/*
+  Logo: monograma SLA (Playfair Display + luna creciente + hoja, en oro).
+  Se inserta inline para conservar máscaras y degradado; cada instancia
+  recibe un prefijo de id propio para no duplicar ids en la página.
+*/
+import slaSvg from "../../assets/brand/sla.svg?raw";
+
+interface Props {
+    class?: string;
+    idPrefix: string;
+}
+
+const { class: className = "", idPrefix } = Astro.props;
+const svg = slaSvg
+    .replaceAll("sla-", `${idPrefix}-`)
+    .replace("<svg ", `<svg class="${className}" aria-hidden="true" focusable="false" `);
+---
+
+<Fragment set:html={svg} />
