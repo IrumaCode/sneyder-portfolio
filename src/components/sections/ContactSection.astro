@@ -1,8 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
 import Logo from "../ui/Logo.astro";
-import { translations, defaultLang } from "../../i18n/translations";
-const t = translations[defaultLang];
+import { useTranslations } from "../../i18n/translations";
+const t = useTranslations(Astro.currentLocale);
 
 const EMAIL = "zsneyder@gmail.com";
 const LINKEDIN = "https://www.linkedin.com/in/sneyderla/";

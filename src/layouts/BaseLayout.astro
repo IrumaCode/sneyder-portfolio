@@ -5,19 +5,30 @@
 // Aquí va la logica que se ejecuta en BUILDTIME, no en el navegador
 // Similar a un controlador en de Symfony pero se ejecuta al compilar
 
-// Props: datos que recibe este componente (como párametros de Twig)
+import { getLang, homePaths, translations, type Language } from '../i18n/translations';
+
+// Props: datos que recibe este componente (como párametros de Twig).
+// Título y descripción salen de translations.seo según el idioma de la ruta.
 interface Props {
-    title: string;
+    title?: string;
     description?: string;
-    lang?: 'es' | 'en';
+    noindex?: boolean;
 }
 
-// Desestructuración con valores por defecto
+const lang = getLang(Astro.currentLocale);
+const seo = translations[lang].seo;
 const {
-    title,
-    description = "Portfolio de Sneyder Leguía - Desarrollador Web Fullstack",
-    lang = 'es'
+    title = seo.title,
+    description = seo.description,
+    noindex = false
 } = Astro.props;
+
+// Versiones alternativas de la página de inicio para hreflang
+const alternates = (Object.keys(homePaths) as Language[]).map((code) => ({
+    hreflang: code,
+    href: new URL(homePaths[code], Astro.site).href
+}));
+const alternateLocale = translations[lang === 'es' ? 'en' : 'es'].seo.ogLocale;
 
 // URLs absolutas a partir de `site` (astro.config.mjs): las redes sociales y Google
 // ignoran rutas relativas en canonical / og:image
@@ -66,6 +77,11 @@ import '@fontsource/jetbrains-mono/700.css';
         <meta name="description" content={description} />
 
         <link rel="canonical" href={canonicalUrl} />
+        {noindex && <meta name="robots" content="noindex" />}
+        {!noindex && alternates.map(({ hreflang, href }) => (
+            <link rel="alternate" hreflang={hreflang} href={href} />
+        ))}
+        {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(homePaths.es, Astro.site).href} />}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -77,6 +93,8 @@ import '@fontsource/jetbrains-mono/700.css';
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
+        <meta property="og:locale" content={seo.ogLocale} />
+        <meta property="og:locale:alternate" content={alternateLocale} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={ogImageUrl} />
 

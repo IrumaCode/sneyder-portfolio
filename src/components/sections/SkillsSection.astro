@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { translations, defaultLang } from "../../i18n/translations";
+import { translations, useTranslations } from "../../i18n/translations";
 
 type CategoryKey = keyof typeof translations.es.skills.categories;
 
@@ -77,7 +77,7 @@ const skillCategories: Category[] = [
     },
 ];
 
-const t = translations[defaultLang];
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <section id="skills" class="py-24 px-[5%] bg-gradient-to-b from-secondary to-primary">

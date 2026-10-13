@@ -35,6 +35,13 @@ export const careerDates = {
 // Todas las traducciones del sitio
 export const translations = {
     es: {
+        // Metadatos SEO de la página
+        seo: {
+            title: 'Sneyder Leguía | Desarrollador Full Stack',
+            description: 'Portfolio de Sneyder Leguía, desarrollador Full Stack especializado en React, Vue.js, PHP y Symfony, con 8 años de experiencia formando desarrolladores.',
+            ogLocale: 'es_CO'
+        },
+
         // Controles de interfaz (aria-labels)
         ui: {
             themeToLight: 'Cambiar a modo claro (Classroom)',
@@ -189,6 +196,13 @@ export const translations = {
         }
     },
     en: {
+        // Page SEO metadata
+        seo: {
+            title: 'Sneyder Leguía | Full Stack Developer',
+            description: 'Portfolio of Sneyder Leguía, a Full Stack Developer specialized in React, Vue.js, PHP and Symfony, with 8 years of experience training developers.',
+            ogLocale: 'en_US'
+        },
+
         // UI controls (aria-labels)
         ui: {
             themeToLight: 'Switch to light mode (Classroom)',
@@ -348,6 +362,19 @@ export const translations = {
 export function t(lang: Language) {
     return translations[lang];
 }
+
+// Idioma de la ruta actual (Astro.currentLocale) con fallback al idioma por defecto
+export function getLang(locale: string | undefined): Language {
+    return locale === 'en' ? 'en' : defaultLang;
+}
+
+// Textos del idioma de la ruta: const t = useTranslations(Astro.currentLocale)
+export function useTranslations(locale: string | undefined) {
+    return translations[getLang(locale)];
+}
+
+// Ruta de la página de inicio para cada idioma
+export const homePaths: Record<Language, string> = { es: '/', en: '/en/' };
 
 // Años completos transcurridos desde una fecha ISO (se evalúa en build)
 export function yearsSince(isoDate: string, now: Date = new Date()): number {

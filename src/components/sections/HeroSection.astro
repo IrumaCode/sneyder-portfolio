@@ -1,12 +1,12 @@
 ---
 import ScrollIndicator from "../ui/ScrollIndicator.astro";
-import { defaultLang, translations } from "../../i18n/translations";
+import { useTranslations } from "../../i18n/translations";
 
 interface Props {
     name: string;
 }
 const { name } = Astro.props;
-const t = translations[defaultLang];
+const t = useTranslations(Astro.currentLocale);
 
 // El nombre se dibuja en dos líneas sobre la pizarra
 const [firstName = name, ...rest] = name.split(" ");

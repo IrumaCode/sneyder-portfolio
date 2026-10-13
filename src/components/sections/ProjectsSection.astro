@@ -1,8 +1,8 @@
 ---
-import { translations, defaultLang } from "../../i18n/translations";
+import { useTranslations } from "../../i18n/translations";
 import ProjectCard from "../ui/ProjectCard.astro";
 import FeaturedProjectCard from "../ui/FeaturedProjectCard.astro";
-const t = translations[defaultLang];
+const t = useTranslations(Astro.currentLocale);
 
 const cardLabels = {
     classroom: t.projects.labels.classroom,

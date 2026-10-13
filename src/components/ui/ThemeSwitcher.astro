@@ -9,8 +9,8 @@
   - Icono y etiqueta cambian por CSS (.when-classroom / .when-geek).
   - Emite CustomEvent('themeChanged') para otros componentes.
 */
-import { translations, defaultLang } from "../../i18n/translations";
-const t = translations[defaultLang];
+import { useTranslations } from "../../i18n/translations";
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <button

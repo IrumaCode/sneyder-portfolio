@@ -1,0 +1,41 @@
+---
+/*
+  PortfolioPage: la página completa del portfolio.
+  La usan src/pages/index.astro (/, español) y src/pages/en/index.astro (/en/, inglés);
+  el idioma lo toma cada componente de Astro.currentLocale.
+*/
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "./ui/SiteHeader.astro";
+import HeroSection from "./sections/HeroSection.astro";
+import ExperienceSection from "./sections/ExperienceSection.astro";
+import ProjectsSection from "./sections/ProjectsSection.astro";
+import SkillsSection from "./sections/SkillsSection.astro";
+import ContactSection from "./sections/ContactSection.astro";
+---
+
+<BaseLayout>
+    <!-- Barra de progreso de scroll -->
+    <div
+        class="fixed top-0 left-0 right-0 z-[60] h-1 origin-left bg-gradient-to-r from-accent to-highlight motion-reduce:hidden"
+        style="transform: scaleX(0);"
+        data-anim="progress"
+        aria-hidden="true"
+    ></div>
+
+    <!-- Cabecera: logo, navegación, tema e idioma -->
+    <SiteHeader />
+
+    <!-- Secciones -->
+    <main id="main" tabindex="-1" class="outline-none">
+        <HeroSection name="Sneyder Leguía Arrieta" />
+        <ExperienceSection />
+        <ProjectsSection />
+        <SkillsSection />
+        <ContactSection />
+    </main>
+</BaseLayout>
+
+<script>
+    import { initScrollAnimations } from "../utils/scroll-animations";
+    initScrollAnimations();
+</script>

@@ -1,17 +1,21 @@
 ---
 /*
   LanguageSwitcher: interruptor único ES ⇄ EN (role="switch").
-  Un clic alterna el idioma al instante; aria-checked = inglés activo.
+  - El idioma inicial lo define la ruta: / (español) y /en/ (inglés).
+  - Un clic traduce al instante sin recargar y actualiza la URL a la ruta
+    equivalente (history.replaceState), conservando el scroll.
+  - aria-checked = inglés activo.
 */
-import { translations, defaultLang } from "../../i18n/translations";
-const t = translations[defaultLang];
+import { getLang, useTranslations } from "../../i18n/translations";
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <button
     type="button"
     id="lang-switch"
     role="switch"
-    aria-checked="false"
+    aria-checked={String(lang === "en")}
     aria-label={t.ui.languageSwitch}
     data-i18n-attr="aria-label:ui.languageSwitch"
     class="lang-switch control-pill gap-2 px-3 text-xs tracking-wider hover:border-accent"
@@ -24,28 +28,25 @@ const t = translations[defaultLang];
 </button>
 
 <script>
-import { translations, type Language, defaultLang } from "../../i18n/translations";
+import { translations, homePaths, type Language } from "../../i18n/translations";
 
 const STORAGE_KEY = "preferred-lang";
-let currentLang: Language = defaultLang;
-
 const toggle = document.getElementById("lang-switch") as HTMLButtonElement | null;
 
-function initLanguage(): void {
-    const saved = localStorage.getItem(STORAGE_KEY) as Language | null;
-    if (saved === "es" || saved === "en") {
-        currentLang = saved;
-    } else {
-        const browserLang = navigator.language.slice(0, 2);
-        currentLang = browserLang === "en" ? "en" : "es";
-    }
-    updateUI();
-    translatePage();
+// El HTML llega ya renderizado en el idioma de la ruta
+let currentLang: Language = document.documentElement.lang === "en" ? "en" : "es";
+
+function isHomePath(): boolean {
+    return Object.values(homePaths).includes(location.pathname);
 }
 
-function updateUI(): void {
-    document.documentElement.lang = currentLang;
-    toggle?.setAttribute("aria-checked", String(currentLang === "en"));
+function readSavedLang(): Language | null {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved === "es" || saved === "en" ? saved : null;
+    } catch {
+        return null;
+    }
 }
 
 function resolve(path: string, source: unknown): unknown {
@@ -78,21 +79,37 @@ function translatePage(): void {
         if (attr && typeof value === "string") el.setAttribute(attr, value);
     });
 
+    // Metadatos de la pestaña
+    document.title = t.seo.title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", t.seo.description);
+
     window.dispatchEvent(new CustomEvent("languageChanged", {
         detail: { lang: currentLang }
     }));
 }
 
-toggle?.addEventListener("click", () => {
-    currentLang = currentLang === "es" ? "en" : "es";
-    localStorage.setItem(STORAGE_KEY, currentLang);
-    updateUI();
+function applyLang(lang: Language): void {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    toggle?.setAttribute("aria-checked", String(lang === "en"));
     translatePage();
+
+    // En la página de inicio la URL refleja el idioma (/ o /en/) sin recargar
+    if (isHomePath() && location.pathname !== homePaths[lang]) {
+        history.replaceState(history.state, "", homePaths[lang] + location.hash);
+    }
+}
+
+toggle?.addEventListener("click", () => {
+    const next: Language = currentLang === "es" ? "en" : "es";
+    try { localStorage.setItem(STORAGE_KEY, next); } catch { /* sin storage */ }
+    applyLang(next);
 });
 
-document.addEventListener("DOMContentLoaded", initLanguage);
-if (document.readyState !== "loading") {
-    initLanguage();
+// Respeta la preferencia guardada si difiere del idioma de la ruta
+const saved = readSavedLang();
+if (saved && saved !== currentLang) {
+    applyLang(saved);
 }
 </script>
 

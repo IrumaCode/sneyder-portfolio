@@ -1,6 +1,6 @@
 ---
-import { translations, defaultLang, careerDates, yearsSince } from "../../i18n/translations";
-const t = translations[defaultLang];
+import { useTranslations, careerDates, yearsSince } from "../../i18n/translations";
+const t = useTranslations(Astro.currentLocale);
 
 // Años como desarrollador calculados en build desde la fecha de ingreso
 const devYears = yearsSince(careerDates.devStart);

@@ -4,9 +4,9 @@
   Proyecto principal (Mesmeric ERP): tarjeta a todo el ancho.
   Es código privado de la empresa, así que no lleva enlace al repositorio.
 */
-import { translations, defaultLang } from "../../i18n/translations";
+import { useTranslations } from "../../i18n/translations";
 
-const t = translations[defaultLang].projects;
+const t = useTranslations(Astro.currentLocale).projects;
 const f = t.featured;
 ---
 

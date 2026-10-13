@@ -12,9 +12,9 @@ import { Icon } from "astro-icon/components";
 import Logo from "./Logo.astro";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
-import { translations, defaultLang } from "../../i18n/translations";
+import { useTranslations } from "../../i18n/translations";
 
-const t = translations[defaultLang];
+const t = useTranslations(Astro.currentLocale);
 const sections = ['experience', 'projects', 'skills', 'contact'] as const;
 const linkClass = "px-3 h-9 inline-flex items-center rounded-full text-fg-muted hover:text-fg hover:bg-accent/10 aria-[current=true]:bg-accent aria-[current=true]:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 ---

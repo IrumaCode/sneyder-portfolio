@@ -1,41 +1,6 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import SiteHeader from "../components/ui/SiteHeader.astro";
-import HeroSection from "../components/sections/HeroSection.astro";
-import ExperienceSection from "../components/sections/ExperienceSection.astro";
-import ProjectsSection from "../components/sections/ProjectsSection.astro";
-import SkillsSection from "../components/sections/SkillsSection.astro";
-import ContactSection from "../components/sections/ContactSection.astro";
-
-const seoData = {
-    title: "Sneyder Leguía | Desarrollador Full Stack",
-    description: "Portfolio de Sneyder Leguía - Desarrollador Full Stack especializado en React, Vue.js, PHP y Symfony. Creando experiencias digitales interactivas."
-};
+// Inicio en español (/)
+import PortfolioPage from "../components/PortfolioPage.astro";
 ---
 
-<BaseLayout title={seoData.title} description={seoData.description} lang="es">
-    <!-- Barra de progreso de scroll -->
-    <div
-        class="fixed top-0 left-0 right-0 z-[60] h-1 origin-left bg-gradient-to-r from-accent to-highlight motion-reduce:hidden"
-        style="transform: scaleX(0);"
-        data-anim="progress"
-        aria-hidden="true"
-    ></div>
-
-    <!-- Cabecera: logo, navegación, tema e idioma -->
-    <SiteHeader />
-
-    <!-- Secciones -->
-    <main id="main" tabindex="-1" class="outline-none">
-        <HeroSection name="Sneyder Leguía Arrieta" />
-        <ExperienceSection />
-        <ProjectsSection />
-        <SkillsSection />
-        <ContactSection />
-    </main>
-</BaseLayout>
-
-<script>
-    import { initScrollAnimations } from "../utils/scroll-animations";
-    initScrollAnimations();
-</script>
+<PortfolioPage />

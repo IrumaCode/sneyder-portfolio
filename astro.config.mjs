@@ -15,9 +15,22 @@ const SITE_URL = process.env.SITE_URL ?? 'https://irumacode.github.io';
 export default defineConfig({
   site: SITE_URL,
 
+  // Español en la raíz (/) e inglés en /en/
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    routing: { prefixDefaultLocale: false }
+  },
+
   vite: {
     plugins: [tailwindcss()]
   },
 
-  integrations: [sitemap(), icon()]
+  integrations: [
+    sitemap({
+      // Añade <xhtml:link hreflang> entre / y /en/
+      i18n: { defaultLocale: 'es', locales: { es: 'es', en: 'en' } }
+    }),
+    icon()
+  ]
 });
