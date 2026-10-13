@@ -121,6 +121,15 @@ const linkClass =
         }
     });
 
+    // Un toque fuera del menú (o del botón) lo cierra; también al cambiar tema o idioma
+    document.addEventListener("pointerdown", (event) => {
+        if (!menu || menu.hidden) return;
+        const target = event.target as Node;
+        if (!menu.contains(target) && !toggle?.contains(target)) setMenu(false);
+    });
+    window.addEventListener("themeChanged", () => setMenu(false));
+    window.addEventListener("languageChanged", () => setMenu(false));
+
     // Sección activa: la que ocupa la franja central del viewport
     const links = document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]");
     const observer = new IntersectionObserver(
