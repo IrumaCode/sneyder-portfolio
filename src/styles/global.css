@@ -67,6 +67,12 @@
     color-scheme: light;
 }
 
+/* Degradado de las llaves del logo { SLA }: sigue al tema */
+:root {
+    --logo-from: var(--color-accent);
+    --logo-to: var(--color-highlight);
+}
+
 /* ====================================================
     BASE STYLES
     ===================================================== */
