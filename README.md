@@ -23,14 +23,14 @@ A single-page, statically generated portfolio with two themes that tell the same
 ### Features
 
 - **Light / dark themes**: follows the system preference and is applied before the first paint, so there is no flash.
-- **Bilingual (ES / EN)**: all content lives in one typed file and switches in the browser, including aria-labels.
+- **Bilingual (ES / EN)**: Spanish at `/` and English at `/en/`, both prerendered. A toggle switch translates in place and keeps the URL in sync. All content lives in one typed file.
 - **Animated storytelling** with GSAP:
   - The name is drawn like a marker stroke and the terminal types its commands.
   - Scroll-driven reveals, counters, a dev + teaching "fusion" diagram and flipping flashcards.
 - **Projects** with a featured private project (Mesmeric ERP) and cards that show repo and demo links automatically once they exist.
 - **Accessible**: single `h1`, skip link, keyboard-friendly navigation, 44px touch targets and AA contrast. Respects `prefers-reduced-motion`.
 - **Performance**: static output, self-hosted fonts and inline SVG icons. No external CDNs.
-- **SEO**: canonical URL, Open Graph and Twitter cards, sitemap.
+- **SEO**: canonical URL, `hreflang` alternates, Open Graph and Twitter cards, sitemap, `robots.txt` and a themed 404 page.
 
 ## Tech stack
 
@@ -71,7 +71,12 @@ Open <http://localhost:4321>.
 | `pnpm dev`       | Start the dev server at `localhost:4321` |
 | `pnpm build`     | Build the static site into `./dist`      |
 | `pnpm preview`   | Serve the production build locally       |
+| `pnpm check`     | Type-check the project with astro check  |
+| `pnpm format`    | Format the codebase with Prettier        |
+| `pnpm ci`        | Type check, format check and build       |
 | `pnpm astro ...` | Run Astro CLI commands                   |
+
+Every push and pull request runs the same checks in GitHub Actions ([ci.yml](.github/workflows/ci.yml)).
 
 ### Environment variables
 
