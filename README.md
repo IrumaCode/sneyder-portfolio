@@ -80,9 +80,9 @@ Every push and pull request runs the same checks in GitHub Actions ([ci.yml](.gi
 
 ### Environment variables
 
-| Variable   | Default                       | Purpose                                                                                                        |
-| ---------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `SITE_URL` | `https://irumacode.github.io` | Public URL used for the canonical link, Open Graph tags and sitemap. Set it to the real domain when deploying. |
+| Variable   | Default                 | Purpose                                                                                                                                 |
+| ---------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `SITE_URL` | `https://sneyderla.dev` | Public URL used for the canonical link, `hreflang`, Open Graph tags, sitemap and `robots.txt`. Override it only for other environments. |
 
 ## Project structure
 
@@ -110,11 +110,21 @@ All text lives in [`src/i18n/translations.ts`](src/i18n/translations.ts). Always
 
 ## Deployment
 
-The output in `./dist` is fully static and can be hosted on any static host, such as Vercel, Netlify, Cloudflare Pages or GitHub Pages.
+Live at **<https://sneyderla.dev>**, hosted on **Cloudflare Pages** with automatic deploys from `main`.
 
-```sh
-SITE_URL=https://your-domain.com pnpm build
-```
+| Setting                | Value                                                      |
+| ---------------------- | ---------------------------------------------------------- |
+| Framework preset       | Astro                                                      |
+| Build command          | `pnpm build`                                               |
+| Build output directory | `dist`                                                     |
+| Node.js version        | 22 (from [`.node-version`](.node-version))                 |
+| Environment variables  | None required (`SITE_URL` defaults to the official domain) |
+
+- Every push to `main` deploys to production, and pull requests get preview URLs.
+- [`public/_headers`](public/_headers) sets security headers and long-term caching for hashed assets.
+- It also adds `noindex` on `*.pages.dev` preview URLs, so only `sneyderla.dev` is indexed.
+
+The output in `./dist` is fully static, so it also works on any other static host.
 
 ---
 
