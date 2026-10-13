@@ -14,7 +14,7 @@
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "ci": "pnpm check && pnpm format:check && pnpm build"
+    "verify": "pnpm check && pnpm format:check && pnpm build"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",

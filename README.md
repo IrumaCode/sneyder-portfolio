@@ -73,7 +73,7 @@ Open <http://localhost:4321>.
 | `pnpm preview`   | Serve the production build locally       |
 | `pnpm check`     | Type-check the project with astro check  |
 | `pnpm format`    | Format the codebase with Prettier        |
-| `pnpm ci`        | Type check, format check and build       |
+| `pnpm verify`    | Type check, format check and build       |
 | `pnpm astro ...` | Run Astro CLI commands                   |
 
 Every push and pull request runs the same checks in GitHub Actions ([ci.yml](.github/workflows/ci.yml)).
