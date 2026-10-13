@@ -29,14 +29,13 @@ gsap.registerPlugin(ScrollTrigger);
 const START = "top 85%";
 const EASE = "power3.out";
 
-const all = <T extends Element = HTMLElement>(selector: string) =>
-    gsap.utils.toArray<T>(`[data-anim="${selector}"]`);
+const all = <T extends Element = HTMLElement>(selector: string) => gsap.utils.toArray<T>(`[data-anim="${selector}"]`);
 
 function revealOnce(target: gsap.TweenTarget, vars: gsap.TweenVars, trigger: Element): void {
     gsap.from(target, {
         ...vars,
         ease: vars.ease ?? EASE,
-        scrollTrigger: { trigger, start: START, once: true }
+        scrollTrigger: { trigger, start: START, once: true },
     });
 }
 
@@ -57,10 +56,18 @@ function animateSimpleReveals(): void {
     });
 
     all("pop").forEach((group) => {
-        revealOnce(group.children, {
-            autoAlpha: 0, scale: 0.6, y: 20, duration: 0.5, ease: "back.out(1.7)",
-            stagger: { each: 0.06, from: "start" }
-        }, group);
+        revealOnce(
+            group.children,
+            {
+                autoAlpha: 0,
+                scale: 0.6,
+                y: 20,
+                duration: 0.5,
+                ease: "back.out(1.7)",
+                stagger: { each: 0.06, from: "start" },
+            },
+            group,
+        );
     });
 }
 
@@ -72,7 +79,9 @@ function animateCounters(): void {
 
         const suffix = original.replace(/^\d+/, "");
         const state = { value: 0 };
-        const render = () => { el.textContent = `${Math.round(state.value)}${suffix}`; };
+        const render = () => {
+            el.textContent = `${Math.round(state.value)}${suffix}`;
+        };
         render();
 
         gsap.to(state, {
@@ -80,21 +89,21 @@ function animateCounters(): void {
             duration: 1.6,
             ease: "power2.out",
             scrollTrigger: { trigger: el, start: START, once: true },
-            onUpdate: render
+            onUpdate: render,
         });
     });
 }
 
 function animateFusion(): void {
     all("fusion").forEach((block) => {
-        const left = block.querySelector("[data-fusion=\"left\"]");
-        const right = block.querySelector("[data-fusion=\"right\"]");
-        const badge = block.querySelector("[data-fusion=\"badge\"]");
-        const result = block.querySelector("[data-fusion=\"result\"]");
+        const left = block.querySelector('[data-fusion="left"]');
+        const right = block.querySelector('[data-fusion="right"]');
+        const badge = block.querySelector('[data-fusion="badge"]');
+        const result = block.querySelector('[data-fusion="result"]');
 
         // Los círculos empiezan separados y se funden mientras se hace scroll
         gsap.timeline({
-            scrollTrigger: { trigger: block, start: "top 80%", end: "center 55%", scrub: 0.8 }
+            scrollTrigger: { trigger: block, start: "top 80%", end: "center 55%", scrub: 0.8 },
         })
             .from(left, { xPercent: -45, rotation: -12, ease: "none" }, 0)
             .from(right, { xPercent: 45, rotation: 12, ease: "none" }, 0)
@@ -122,11 +131,19 @@ function animateTeaching(): void {
             autoAlpha: 0,
             duration: 0.7,
             ease: "back.out(1.4)",
-            stagger: { each: 0.12, grid: "auto", from: "start" }
+            stagger: { each: 0.12, grid: "auto", from: "start" },
         });
-        timeline.from(group.querySelectorAll("[data-flip-icon]"), {
-            scale: 0, rotation: -45, duration: 0.5, ease: "back.out(3)", stagger: 0.12
-        }, 0.35);
+        timeline.from(
+            group.querySelectorAll("[data-flip-icon]"),
+            {
+                scale: 0,
+                rotation: -45,
+                duration: 0.5,
+                ease: "back.out(3)",
+                stagger: 0.12,
+            },
+            0.35,
+        );
     });
 }
 
@@ -139,17 +156,21 @@ function animateHeroParallax(): void {
         scale: 0.94,
         autoAlpha: 0.35,
         ease: "none",
-        scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true }
+        scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
     });
 }
 
 function animateProgressBar(): void {
     all("progress").forEach((bar) => {
-        gsap.fromTo(bar, { scaleX: 0 }, {
-            scaleX: 1,
-            ease: "none",
-            scrollTrigger: { start: 0, end: "max", scrub: 0.3 }
-        });
+        gsap.fromTo(
+            bar,
+            { scaleX: 0 },
+            {
+                scaleX: 1,
+                ease: "none",
+                scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
+            },
+        );
     });
 }
 

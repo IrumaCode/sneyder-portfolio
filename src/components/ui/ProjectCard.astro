@@ -7,7 +7,7 @@
 */
 import { Icon } from "astro-icon/components";
 
-type ProjectStatus = 'live' | 'coming-soon';
+type ProjectStatus = "live" | "coming-soon";
 
 interface Labels {
     classroom: string;
@@ -28,12 +28,13 @@ interface Props {
     labels: Labels;
 }
 
-const { title, description, tech, index, repo, demo, status = 'live', labels } = Astro.props;
+const { title, description, tech, index, repo, demo, status = "live", labels } = Astro.props;
 
 const hasLinks = Boolean(repo || demo);
-const isComingSoon = !hasLinks && status === 'coming-soon';
-const order = String(index + 1).padStart(2, '0');
-const linkClass = "inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm font-bold transition-[scale,background-color,border-color,color] duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
+const isComingSoon = !hasLinks && status === "coming-soon";
+const order = String(index + 1).padStart(2, "0");
+const linkClass =
+    "inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm font-bold transition-[scale,background-color,border-color,color] duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 ---
 
 <article
@@ -41,14 +42,18 @@ const linkClass = "inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm
         "group relative rounded-xl p-6 md:p-8 flex flex-col border transition-[translate,background-color,border-color,box-shadow] duration-300",
         isComingSoon
             ? "bg-secondary/50 border-dashed border-accent/30"
-            : "bg-secondary border-accent/20 hover:border-accent/60 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+            : "bg-secondary border-accent/20 hover:border-accent/60 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]",
     ]}
 >
     <div class="flex items-center justify-between gap-3 mb-4">
         <!-- Etiqueta por tema -->
         <span class="font-heading text-xl md:text-2xl text-accent/70 leading-none">
-            <span class="when-classroom italic"><span data-i18n="projects.labels.classroom">{labels.classroom}</span> {order}</span>
-            <span class="when-geek tracking-wider"><span data-i18n="projects.labels.geek">{labels.geek}</span> {order}</span>
+            <span class="when-classroom italic">
+                <span data-i18n="projects.labels.classroom">{labels.classroom}</span> {order}
+            </span>
+            <span class="when-geek tracking-wider">
+                <span data-i18n="projects.labels.geek">{labels.geek}</span> {order}
+            </span>
         </span>
 
         {isComingSoon && (
@@ -61,10 +66,7 @@ const linkClass = "inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm
         )}
     </div>
 
-    <h3
-        class="font-heading text-xl md:text-2xl text-fg mb-3"
-        data-i18n={`projects.items.${index}.title`}
-    >
+    <h3 class="font-heading text-xl md:text-2xl text-fg mb-3" data-i18n={`projects.items.${index}.title`}>
         {title}
     </h3>
 
@@ -77,21 +79,39 @@ const linkClass = "inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm
 
     <ul class="flex flex-wrap gap-2">
         {tech.map((item) => (
-            <li class="text-xs px-3 py-1 rounded-full bg-primary text-highlight border border-highlight/30 font-mono">{item}</li>
+            <li class="text-xs px-3 py-1 rounded-full bg-primary text-highlight border border-highlight/30 font-mono">
+                {item}
+            </li>
         ))}
     </ul>
 
     {hasLinks && (
         <div class="flex flex-wrap gap-3 mt-6">
             {repo && (
-                <a href={repo} target="_blank" rel="noopener noreferrer" class={`${linkClass} border border-accent/40 text-fg hover:border-accent`}>
+                <a
+                    href={repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={`${linkClass} border border-accent/40 text-fg hover:border-accent`}
+                >
                     <Icon name="simple-icons:github" class="w-4 h-4" aria-hidden="true" />
                     <span data-i18n="projects.viewRepo">{labels.repo}</span>
                 </a>
             )}
             {demo && (
                 <a href={demo} target="_blank" rel="noopener noreferrer" class={`${linkClass} bg-accent text-primary`}>
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    </svg>
                     <span data-i18n="projects.viewDemo">{labels.demo}</span>
                 </a>
             )}

@@ -42,7 +42,10 @@ function playClassroomIntro(panel: HTMLElement): gsap.core.Timeline {
 
     const timeline = gsap.timeline({
         delay: 0.2,
-        onComplete: () => { currentSplit?.revert(); currentSplit = null; }
+        onComplete: () => {
+            currentSplit?.revert();
+            currentSplit = null;
+        },
     });
 
     gsap.set(nameLines, { strokeDasharray: MARKER_DASH, strokeDashoffset: MARKER_DASH, fillOpacity: 0 });
@@ -50,7 +53,11 @@ function playClassroomIntro(panel: HTMLElement): gsap.core.Timeline {
     timeline.from(greeting, { autoAlpha: 0, x: -24, duration: 0.5, ease: "power2.out" });
 
     nameLines.forEach((line, index) => {
-        timeline.to(line, { strokeDashoffset: 0, duration: index === 0 ? 1.4 : 0.9, ease: "power1.inOut" }, index === 0 ? ">" : "-=0.5");
+        timeline.to(
+            line,
+            { strokeDashoffset: 0, duration: index === 0 ? 1.4 : 0.9, ease: "power1.inOut" },
+            index === 0 ? ">" : "-=0.5",
+        );
     });
     timeline.to(nameLines, { fillOpacity: 1, duration: 0.5 }, "-=0.3");
 
@@ -62,10 +69,11 @@ function playClassroomIntro(panel: HTMLElement): gsap.core.Timeline {
     // La primera doodle visible bajo el rol es el subrayado ondulado
     timeline.from(doodles, { drawSVG: "0%", duration: 0.6, stagger: 0.15, ease: "power1.inOut" }, "-=0.1");
 
-    timeline.fromTo(introLines,
+    timeline.fromTo(
+        introLines,
         { clipPath: "inset(0 100% 0 0)" },
         { clipPath: "inset(0 0% 0 0)", duration: 0.8, stagger: 0.35, ease: "none", clearProps: "clipPath" },
-        "-=0.8"
+        "-=0.8",
     );
 
     timeline.from(sticky, { autoAlpha: 0, y: -90, rotation: -25, duration: 1, ease: "bounce.out" }, "-=0.6");
@@ -86,9 +94,10 @@ function playGeekIntro(panel: HTMLElement): gsap.core.Timeline {
             timeline.set(step, { autoAlpha: 1 });
             timeline.fromTo(command, { text: "" }, { text, duration: text.length * TYPE_SPEED_PER_CHAR, ease: "none" });
         } else if (step.hasAttribute("data-geek-glitch")) {
-            timeline.fromTo(step,
+            timeline.fromTo(
+                step,
                 { autoAlpha: 0, skewX: 25, x: -20 },
-                { autoAlpha: 1, skewX: 0, x: 0, duration: 0.5, ease: "steps(6)" }
+                { autoAlpha: 1, skewX: 0, x: 0, duration: 0.5, ease: "steps(6)" },
             );
         } else {
             timeline.fromTo(step, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" });
@@ -109,7 +118,9 @@ function playActiveIntro(): void {
 export function initHeroIntros(): void {
     // El cambio de idioma reemplaza el texto partido: descartamos el split sin revert()
     // para no restaurar el texto del idioma anterior
-    window.addEventListener("languageChanged", () => { currentSplit = null; });
+    window.addEventListener("languageChanged", () => {
+        currentSplit = null;
+    });
 
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {

@@ -21,12 +21,30 @@ const t = useTranslations(Astro.currentLocale);
     class="control-pill gap-2 px-3 sm:px-4 hover:border-accent hover:scale-105"
 >
     <!-- Sol (classroom / light) -->
-    <svg class="when-classroom w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+    <svg
+        class="when-classroom w-5 h-5 text-accent"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+    >
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
     </svg>
     <!-- Luna (geek / dark) -->
-    <svg class="when-geek w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+    <svg
+        class="when-geek w-5 h-5 text-accent"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+    >
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
     </svg>
     <span class="when-classroom hidden sm:inline text-accent tracking-wider">CLASSROOM</span>
     <span class="when-geek hidden sm:inline text-accent tracking-wider">GEEK</span>
@@ -35,42 +53,50 @@ const t = useTranslations(Astro.currentLocale);
 <script>
     import { translations, type Language } from "../../i18n/translations";
 
-    type Theme = 'classroom' | 'geek';
+    type Theme = "classroom" | "geek";
 
-    const STORAGE_KEY = 'preferred-theme';
-    const btn = document.getElementById('theme-switcher');
+    const STORAGE_KEY = "preferred-theme";
+    const btn = document.getElementById("theme-switcher");
 
     const getTheme = (): Theme =>
-        document.documentElement.getAttribute('data-theme') === 'geek' ? 'geek' : 'classroom';
+        document.documentElement.getAttribute("data-theme") === "geek" ? "geek" : "classroom";
 
     // El aria-label describe la acción (ir al otro tema) en el idioma activo
     function updateLabel(): void {
         if (!btn) return;
-        const lang = (document.documentElement.lang === 'en' ? 'en' : 'es') as Language;
-        const key = getTheme() === 'classroom' ? 'themeToDark' : 'themeToLight';
-        btn.setAttribute('aria-label', translations[lang].ui[key]);
-        btn.setAttribute('data-i18n-attr', `aria-label:ui.${key}`);
+        const lang = (document.documentElement.lang === "en" ? "en" : "es") as Language;
+        const key = getTheme() === "classroom" ? "themeToDark" : "themeToLight";
+        btn.setAttribute("aria-label", translations[lang].ui[key]);
+        btn.setAttribute("data-i18n-attr", `aria-label:ui.${key}`);
     }
 
     function applyTheme(theme: Theme): void {
-        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute("data-theme", theme);
         updateLabel();
-        window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+        window.dispatchEvent(new CustomEvent("themeChanged", { detail: { theme } }));
     }
 
-    btn?.addEventListener('click', () => {
-        const next: Theme = getTheme() === 'classroom' ? 'geek' : 'classroom';
-        try { localStorage.setItem(STORAGE_KEY, next); } catch { /* sin storage */ }
+    btn?.addEventListener("click", () => {
+        const next: Theme = getTheme() === "classroom" ? "geek" : "classroom";
+        try {
+            localStorage.setItem(STORAGE_KEY, next);
+        } catch {
+            /* sin storage */
+        }
         applyTheme(next);
     });
 
     // Si el usuario nunca eligió, seguimos el modo del sistema
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
         let saved: string | null = null;
-        try { saved = localStorage.getItem(STORAGE_KEY); } catch { /* sin storage */ }
-        if (!saved) applyTheme(event.matches ? 'geek' : 'classroom');
+        try {
+            saved = localStorage.getItem(STORAGE_KEY);
+        } catch {
+            /* sin storage */
+        }
+        if (!saved) applyTheme(event.matches ? "geek" : "classroom");
     });
 
-    window.addEventListener('languageChanged', updateLabel);
+    window.addEventListener("languageChanged", updateLabel);
     updateLabel();
 </script>

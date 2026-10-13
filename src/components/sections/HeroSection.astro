@@ -10,9 +10,7 @@ const t = useTranslations(Astro.currentLocale);
 
 // El nombre se dibuja en dos líneas sobre la pizarra
 const [firstName = name, ...rest] = name.split(" ");
-const boardLines = rest.length > 1
-    ? [`${firstName} ${rest[0]}`, rest.slice(1).join(" ")]
-    : [name];
+const boardLines = rest.length > 1 ? [`${firstName} ${rest[0]}`, rest.slice(1).join(" ")] : [name];
 ---
 
 <section
@@ -40,59 +38,129 @@ const boardLines = rest.length > 1
             <div class="board-ghosting absolute inset-0 pointer-events-none" aria-hidden="true"></div>
 
             <!-- Garabatos -->
-            <svg class="absolute top-6 right-8 w-14 h-14 text-board-red" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path data-board-doodle d="M30 6l6.5 15.5L53 23l-12.5 11 4 17L30 42l-14.5 9 4-17L7 23l16.5-1.5z"/>
+            <svg
+                class="absolute top-6 right-8 w-14 h-14 text-board-red"
+                viewBox="0 0 60 60"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <path data-board-doodle d="M30 6l6.5 15.5L53 23l-12.5 11 4 17L30 42l-14.5 9 4-17L7 23l16.5-1.5z" />
             </svg>
-            <svg class="absolute bottom-8 right-10 w-20 h-12 text-board-green hidden md:block" viewBox="0 0 90 50" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path data-board-doodle d="M22 10L6 25l16 15"/>
-                <path data-board-doodle d="M52 6L38 44"/>
-                <path data-board-doodle d="M68 10l16 15-16 15"/>
+            <svg
+                class="absolute bottom-8 right-10 w-20 h-12 text-board-green hidden md:block"
+                viewBox="0 0 90 50"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <path data-board-doodle d="M22 10L6 25l16 15" />
+                <path data-board-doodle d="M52 6L38 44" />
+                <path data-board-doodle d="M68 10l16 15-16 15" />
             </svg>
 
             <div class="relative z-10 grid gap-10 lg:grid-cols-[1fr_15rem] items-center">
                 <div class="text-left">
-                    <p class="font-hand font-bold text-2xl md:text-3xl text-board-red mb-1" data-board-greeting data-i18n="hero.greeting">
+                    <p
+                        class="font-hand font-bold text-2xl md:text-3xl text-board-red mb-1"
+                        data-board-greeting
+                        data-i18n="hero.greeting"
+                    >
                         {t.hero.greeting}
                     </p>
 
                     <!-- Nombre trazado con marcador (serif académica) -->
-                    <svg class="board-name block w-full max-w-[44rem] h-auto -ml-1" viewBox="0 0 760 210" aria-hidden="true">
+                    <svg
+                        class="board-name block w-full max-w-[44rem] h-auto -ml-1"
+                        viewBox="0 0 760 210"
+                        aria-hidden="true"
+                    >
                         {boardLines.map((line, index) => (
-                            <text x="6" y={index === 0 ? 88 : 190}>{line}</text>
+                            <text x="6" y={index === 0 ? 88 : 190}>
+                                {line}
+                            </text>
                         ))}
                     </svg>
 
                     <!-- Rol + subrayado ondulado -->
                     <div class="relative inline-block mt-3 mb-8">
-                        <p class="font-serif italic font-semibold text-xl md:text-2xl lg:text-3xl text-board-blue" data-board-role data-i18n="hero.role">
+                        <p
+                            class="font-serif italic font-semibold text-xl md:text-2xl lg:text-3xl text-board-blue"
+                            data-board-role
+                            data-i18n="hero.role"
+                        >
                             {t.hero.role}
                         </p>
-                        <svg class="absolute left-0 -bottom-4 w-full h-4 text-board-red" viewBox="0 0 300 16" preserveAspectRatio="none" fill="none" aria-hidden="true">
-                            <path data-board-doodle d="M2 10C30 2 45 14 75 8s50-6 75 0 50 6 75 0 50-6 73 2" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        <svg
+                            class="absolute left-0 -bottom-4 w-full h-4 text-board-red"
+                            viewBox="0 0 300 16"
+                            preserveAspectRatio="none"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                data-board-doodle
+                                d="M2 10C30 2 45 14 75 8s50-6 75 0 50 6 75 0 50-6 73 2"
+                                stroke="currentColor"
+                                stroke-width="3"
+                                stroke-linecap="round"
+                            />
                         </svg>
                     </div>
 
-                    <div class="board-intro text-base md:text-lg leading-relaxed text-board-ink/90" data-board-intro data-i18n="hero.intro">
-                        {t.hero.intro.map((line) => (<p class="mb-2">{line}</p>))}
+                    <div
+                        class="board-intro text-base md:text-lg leading-relaxed text-board-ink/90"
+                        data-board-intro
+                        data-i18n="hero.intro"
+                    >
+                        {t.hero.intro.map((line) => (
+                            <p class="mb-2">{line}</p>
+                        ))}
                     </div>
                 </div>
 
                 <!-- Post-it -->
                 <div class="relative justify-self-start lg:justify-self-center" data-board-sticky>
-                    <svg class="absolute -left-16 top-1/2 w-14 h-10 text-board-blue hidden lg:block" viewBox="0 0 60 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path data-board-doodle d="M56 8C40 2 18 6 8 28"/>
-                        <path data-board-doodle d="M4 18l4 11 11-3"/>
+                    <svg
+                        class="absolute -left-16 top-1/2 w-14 h-10 text-board-blue hidden lg:block"
+                        viewBox="0 0 60 40"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path data-board-doodle d="M56 8C40 2 18 6 8 28" />
+                        <path data-board-doodle d="M4 18l4 11 11-3" />
                     </svg>
                     <div class="relative w-52 md:w-56 rotate-3 bg-sticky p-5 pt-7 shadow-[0_12px_24px_rgba(15,23,42,0.18)]">
-                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-2 w-20 h-6 bg-white/70 shadow-sm" aria-hidden="true"></span>
-                        <p class="font-hand font-bold text-2xl leading-tight text-board-ink" data-i18n="hero.stickyNote">{t.hero.stickyNote}</p>
+                        <span
+                            class="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-2 w-20 h-6 bg-white/70 shadow-sm"
+                            aria-hidden="true"
+                        ></span>
+                        <p
+                            class="font-hand font-bold text-2xl leading-tight text-board-ink"
+                            data-i18n="hero.stickyNote"
+                        >
+                            {t.hero.stickyNote}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Repisa de madera con marcadores -->
-        <div class="wood-frame absolute -bottom-3 left-1/2 -translate-x-1/2 w-1/2 min-w-52 h-4 rounded-md" aria-hidden="true">
+        <div
+            class="wood-frame absolute -bottom-3 left-1/2 -translate-x-1/2 w-1/2 min-w-52 h-4 rounded-md"
+            aria-hidden="true"
+        >
             <span class="marker left-[10%] bg-board-blue"></span>
             <span class="marker left-[40%] bg-board-red"></span>
             <span class="marker left-[70%] bg-board-green"></span>
@@ -101,8 +169,7 @@ const boardLines = rest.length > 1
 
     <!-- ===================== GEEK (DARK): terminal ===================== -->
     <div
-        class="
-            geek-panel
+        class="geek-panel
             w-[92%] max-w-[75rem] min-h-[75svh]
             bg-geek-black
             border-2 border-geek-green/40
@@ -110,8 +177,7 @@ const boardLines = rest.length > 1
             shadow-[0_0_40px_rgba(57,255,20,0.15),0_0_80px_rgba(0,217,255,0.08)]
             relative
             overflow-hidden
-            flex-col
-        "
+            flex-col"
         data-anim="hero-panel"
     >
         <!-- Barra de ventana -->
@@ -119,7 +185,9 @@ const boardLines = rest.length > 1
             <span class="w-3 h-3 rounded-full bg-[#ff5f56]"></span>
             <span class="w-3 h-3 rounded-full bg-[#ffbd2e]"></span>
             <span class="w-3 h-3 rounded-full bg-[#27c93f]"></span>
-            <span class="flex-1 text-center font-mono text-xs md:text-sm text-gray-400 pr-12">sneyder@portfolio: ~</span>
+            <span class="flex-1 text-center font-mono text-xs md:text-sm text-gray-400 pr-12">
+                sneyder@portfolio: ~
+            </span>
         </div>
 
         <!-- Cuerpo de la terminal -->
@@ -129,7 +197,9 @@ const boardLines = rest.length > 1
             <div class="relative z-10 max-w-4xl">
                 <p class="text-sm md:text-base text-gray-400 mb-2" data-geek-step aria-hidden="true">
                     <span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span>
-                    <span class="text-geek-green" data-geek-type="whoami">whoami</span>
+                    <span class="text-geek-green" data-geek-type="whoami">
+                        whoami
+                    </span>
                 </p>
                 <p
                     class="font-display text-5xl md:text-7xl lg:text-8xl text-geek-green text-shadow-crt leading-none mb-6 md:mb-8"
@@ -142,24 +212,32 @@ const boardLines = rest.length > 1
 
                 <p class="text-sm md:text-base text-gray-400 mb-2" data-geek-step aria-hidden="true">
                     <span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span>
-                    <span class="text-geek-green" data-geek-type="cat role.txt">cat role.txt</span>
+                    <span class="text-geek-green" data-geek-type="cat role.txt">
+                        cat role.txt
+                    </span>
                 </p>
                 <p
                     class="font-display text-2xl md:text-4xl text-geek-cyan tracking-wide mb-6 md:mb-8"
                     data-geek-step
                     data-i18n="hero.geekRole"
-                >{t.hero.geekRole}</p>
+                >
+                    {t.hero.geekRole}
+                </p>
 
                 <p class="text-sm md:text-base text-gray-400 mb-2" data-geek-step aria-hidden="true">
                     <span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span>
-                    <span class="text-geek-green" data-geek-type="./intro.sh">./intro.sh</span>
+                    <span class="text-geek-green" data-geek-type="./intro.sh">
+                        ./intro.sh
+                    </span>
                 </p>
                 <div
                     class="geek-intro text-sm md:text-base text-gray-300 leading-relaxed mb-4"
                     data-geek-step
                     data-i18n="hero.geekIntro"
                 >
-                    {t.hero.geekIntro.map((line) => (<p class="mb-2">{line}</p>))}
+                    {t.hero.geekIntro.map((line) => (
+                        <p class="mb-2">{line}</p>
+                    ))}
                 </div>
 
                 <p class="text-sm md:text-base" data-geek-step aria-hidden="true">
@@ -170,7 +248,10 @@ const boardLines = rest.length > 1
         </div>
 
         <!-- Barra de estado estilo vim -->
-        <div class="flex justify-between gap-4 px-4 py-1.5 bg-geek-green text-geek-black font-mono text-[0.6875rem] md:text-xs font-bold" aria-hidden="true">
+        <div
+            class="flex justify-between gap-4 px-4 py-1.5 bg-geek-green text-geek-black font-mono text-[0.6875rem] md:text-xs font-bold"
+            aria-hidden="true"
+        >
             <span>-- NORMAL --</span>
             <span class="hidden sm:inline">portfolio.astro [+]</span>
             <span>utf-8 · ln 9, col 24</span>
@@ -232,12 +313,14 @@ const boardLines = rest.length > 1
         width: 3.25rem;
         height: 0.65rem;
         border-radius: 9999px;
-        box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25), 0 2px 3px rgba(0, 0, 0, 0.3);
+        box-shadow:
+            inset 0 -2px 0 rgba(0, 0, 0, 0.25),
+            0 2px 3px rgba(0, 0, 0, 0.3);
     }
 
     /* Check verde delante de cada línea (también tras cambiar idioma) */
     .board-intro > :global(p)::before {
-        content: '✓ ';
+        content: "✓ ";
         color: var(--color-board-green);
         font-weight: 700;
     }
@@ -245,13 +328,19 @@ const boardLines = rest.length > 1
     /* ---- Geek: terminal ---- */
     .geek-scanlines {
         background:
-            repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0.25) 1px, transparent 1px, transparent 3px),
+            repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.25) 0,
+                rgba(0, 0, 0, 0.25) 1px,
+                transparent 1px,
+                transparent 3px
+            ),
             radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.55) 100%);
         animation: crt-flicker 4s infinite steps(1);
     }
 
     .geek-intro > :global(p)::before {
-        content: '> ';
+        content: "> ";
         color: var(--color-geek-pink);
     }
 
@@ -260,11 +349,20 @@ const boardLines = rest.length > 1
     }
 
     @keyframes blink {
-        50% { opacity: 0; }
+        50% {
+            opacity: 0;
+        }
     }
     @keyframes crt-flicker {
-        0%, 100% { opacity: 1; }
-        92%      { opacity: 0.85; }
-        94%      { opacity: 1; }
+        0%,
+        100% {
+            opacity: 1;
+        }
+        92% {
+            opacity: 0.85;
+        }
+        94% {
+            opacity: 1;
+        }
     }
 </style>

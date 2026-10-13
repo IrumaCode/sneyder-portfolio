@@ -14,17 +14,17 @@
 
 @theme static {
     /* ---- Semánticos (valor light = classroom) ---- */
-    --color-primary: #f5f3ee;      /* fondo de página (papel) */
-    --color-secondary: #ffffff;    /* superficies / tarjetas */
-    --color-accent: #1d4ed8;       /* marcador azul: títulos, CTA */
-    --color-highlight: #15803d;    /* marcador verde: tags, categorías */
-    --color-fg: #1e293b;           /* texto principal */
-    --color-fg-muted: #475569;     /* texto secundario */
-    --color-fg-subtle: #5b6472;    /* metadatos, footer */
+    --color-primary: #f5f3ee; /* fondo de página (papel) */
+    --color-secondary: #ffffff; /* superficies / tarjetas */
+    --color-accent: #1d4ed8; /* marcador azul: títulos, CTA */
+    --color-highlight: #15803d; /* marcador verde: tags, categorías */
+    --color-fg: #1e293b; /* texto principal */
+    --color-fg-muted: #475569; /* texto secundario */
+    --color-fg-subtle: #5b6472; /* metadatos, footer */
 
     /* ---- Pizarra blanca (hero classroom) ---- */
     --color-board: #fdfdfb;
-    --color-board-frame: #8b5a2b;      /* madera */
+    --color-board-frame: #8b5a2b; /* madera */
     --color-wood-light: #b07a43;
     --color-wood-dark: #5e3a1a;
     --color-board-ink: #1e293b;
@@ -42,12 +42,12 @@
     --color-geek-black: #0d1117;
 
     /* ---- Tipografía ---- */
-    --font-body: 'Poppins', sans-serif;
-    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
-    --font-display: 'VT323', 'Courier New', monospace;
-    --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-    --font-hand: 'Caveat', 'Comic Sans MS', cursive;
-    --font-heading: var(--font-serif);  /* cambia con el tema */
+    --font-body: "Poppins", sans-serif;
+    --font-mono: "JetBrains Mono", "Courier New", monospace;
+    --font-display: "VT323", "Courier New", monospace;
+    --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+    --font-hand: "Caveat", "Comic Sans MS", cursive;
+    --font-heading: var(--font-serif); /* cambia con el tema */
 }
 
 /* ---- DARK: Geek ---- */
@@ -80,7 +80,9 @@ html {
     scroll-behavior: smooth;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -88,20 +90,30 @@ body {
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition:
+        background-color 0.4s ease,
+        color 0.4s ease;
 }
 
 /* ====================================================
     HERO: un panel por tema (CSS puro, sin parpadeo)
     ===================================================== */
-.geek-panel { display: none; }
-[data-theme="geek"] .geek-panel { display: flex; }
-[data-theme="geek"] .classroom-panel { display: none; }
+.geek-panel {
+    display: none;
+}
+[data-theme="geek"] .geek-panel {
+    display: flex;
+}
+[data-theme="geek"] .classroom-panel {
+    display: none;
+}
 
 /* Iconos/etiquetas del botón de tema */
 [data-theme="geek"] .when-classroom,
 [data-theme="classroom"] .when-geek,
-:root:not([data-theme]) .when-geek { display: none; }
+:root:not([data-theme]) .when-geek {
+    display: none;
+}
 
 /* ====================================================
     UTILITY CLASSES
@@ -129,7 +141,7 @@ body {
 }
 
 .section-title-line::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -15px;
     left: 0;
@@ -143,13 +155,15 @@ body {
 
 /* En modo geek los títulos parecen un prompt */
 [data-theme="geek"] .section-title-line::before {
-    content: '$ ';
+    content: "$ ";
     color: var(--color-highlight);
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
     }

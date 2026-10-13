@@ -13,25 +13,23 @@ interface Props {
     class?: string; // Permite añadir clases desde el padre
 }
 
-const { class: className = '' } = Astro.props;
+const { class: className = "" } = Astro.props;
 ---
 
-<div class:list={[
-    "absolute bottom-8 left-1/2 -translate-x-1/2",
-    "opacity-0 animate-fade-in",
-    className
-]}>
+<div class:list={["absolute bottom-8 left-1/2 -translate-x-1/2", "opacity-0 animate-fade-in", className]}>
     <!-- Contenedor que hace bounce -->
     <div class="animate-scroll-bounce" aria-hidden="true">
         <!-- Flecha que mantiene su rotación -->
-        <div class="
-            w-7 h-7
+        <div
+            class="w-7 h-7
             border-r-[.1875rem] border-b-[.1875rem] border-accent
-            rotate-45
-        "></div>
+            rotate-45"
+        ></div>
     </div>
 
-    <span class="sr-only" data-i18n="ui.scrollHint">Desplázate hacia abajo para ver más contenido</span>
+    <span class="sr-only" data-i18n="ui.scrollHint">
+        Desplázate hacia abajo para ver más contenido
+    </span>
 </div>
 
 <style>
@@ -41,17 +39,25 @@ const { class: className = '' } = Astro.props;
     */
 
     @keyframes fade-in {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
     .animate-fade-in {
-        animation: fade-in .5s ease-out 2.5s forwards;
+        animation: fade-in 0.5s ease-out 2.5s forwards;
     }
 
     /* Bounce vertical sin afectar rotate */
     @keyframes scroll-bounce {
-        0%, 20%, 50%, 80%, 100% {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
             transform: translateY(0);
         }
         40% {

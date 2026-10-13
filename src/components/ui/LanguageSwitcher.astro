@@ -20,99 +20,112 @@ const t = useTranslations(Astro.currentLocale);
     data-i18n-attr="aria-label:ui.languageSwitch"
     class="lang-switch control-pill gap-2 px-3 text-xs tracking-wider hover:border-accent"
 >
-    <span class="lang-es transition-colors" lang="es" aria-hidden="true">ES</span>
-    <span class="relative w-10 h-6 rounded-full bg-accent/15 border border-accent/40 transition-colors" aria-hidden="true">
+    <span class="lang-es transition-colors" lang="es" aria-hidden="true">
+        ES
+    </span>
+    <span
+        class="relative w-10 h-6 rounded-full bg-accent/15 border border-accent/40 transition-colors"
+        aria-hidden="true"
+    >
         <span class="lang-knob absolute top-0.5 left-0.5 w-[1.125rem] h-[1.125rem] rounded-full bg-accent shadow transition-[translate] duration-300 ease-out"></span>
     </span>
-    <span class="lang-en transition-colors" lang="en" aria-hidden="true">EN</span>
+    <span class="lang-en transition-colors" lang="en" aria-hidden="true">
+        EN
+    </span>
 </button>
 
 <script>
-import { translations, homePaths, type Language } from "../../i18n/translations";
+    import { translations, homePaths, type Language } from "../../i18n/translations";
 
-const STORAGE_KEY = "preferred-lang";
-const toggle = document.getElementById("lang-switch") as HTMLButtonElement | null;
+    const STORAGE_KEY = "preferred-lang";
+    const toggle = document.getElementById("lang-switch") as HTMLButtonElement | null;
 
-// El HTML llega ya renderizado en el idioma de la ruta
-let currentLang: Language = document.documentElement.lang === "en" ? "en" : "es";
+    // El HTML llega ya renderizado en el idioma de la ruta
+    let currentLang: Language = document.documentElement.lang === "en" ? "en" : "es";
 
-function isHomePath(): boolean {
-    return Object.values(homePaths).includes(location.pathname);
-}
-
-function readSavedLang(): Language | null {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        return saved === "es" || saved === "en" ? saved : null;
-    } catch {
-        return null;
+    function isHomePath(): boolean {
+        return Object.values(homePaths).includes(location.pathname);
     }
-}
 
-function resolve(path: string, source: unknown): unknown {
-    return path.split(".").reduce((obj: any, k) => obj?.[k], source);
-}
-
-function translatePage(): void {
-    const t = translations[currentLang];
-
-    // Contenido: data-i18n="ruta.al.texto"
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (!key) return;
-        const value = resolve(key, t);
-        if (typeof value === "string") {
-            if (value.includes("<")) {
-                el.innerHTML = value;
-            } else {
-                el.textContent = value;
-            }
-        } else if (Array.isArray(value)) {
-            el.innerHTML = value.map(line => `<p class="mb-2">${line}</p>`).join("");
+    function readSavedLang(): Language | null {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            return saved === "es" || saved === "en" ? saved : null;
+        } catch {
+            return null;
         }
-    });
-
-    // Atributos: data-i18n-attr="aria-label:ruta.al.texto"
-    document.querySelectorAll("[data-i18n-attr]").forEach(el => {
-        const [attr, key] = (el.getAttribute("data-i18n-attr") ?? "").split(":");
-        const value = key ? resolve(key, t) : undefined;
-        if (attr && typeof value === "string") el.setAttribute(attr, value);
-    });
-
-    // Metadatos de la pestaña
-    const titleKey = document.documentElement.dataset.titleKey ?? "seo.title";
-    const title = resolve(titleKey, t);
-    if (typeof title === "string") document.title = title;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", t.seo.description);
-
-    window.dispatchEvent(new CustomEvent("languageChanged", {
-        detail: { lang: currentLang }
-    }));
-}
-
-function applyLang(lang: Language): void {
-    currentLang = lang;
-    document.documentElement.lang = lang;
-    toggle?.setAttribute("aria-checked", String(lang === "en"));
-    translatePage();
-
-    // En la página de inicio la URL refleja el idioma (/ o /en/) sin recargar
-    if (isHomePath() && location.pathname !== homePaths[lang]) {
-        history.replaceState(history.state, "", homePaths[lang] + location.hash);
     }
-}
 
-toggle?.addEventListener("click", () => {
-    const next: Language = currentLang === "es" ? "en" : "es";
-    try { localStorage.setItem(STORAGE_KEY, next); } catch { /* sin storage */ }
-    applyLang(next);
-});
+    function resolve(path: string, source: unknown): unknown {
+        return path.split(".").reduce((obj: any, k) => obj?.[k], source);
+    }
 
-// Respeta la preferencia guardada si difiere del idioma de la ruta
-const saved = readSavedLang();
-if (saved && saved !== currentLang) {
-    applyLang(saved);
-}
+    function translatePage(): void {
+        const t = translations[currentLang];
+
+        // Contenido: data-i18n="ruta.al.texto"
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+            const key = el.getAttribute("data-i18n");
+            if (!key) return;
+            const value = resolve(key, t);
+            if (typeof value === "string") {
+                if (value.includes("<")) {
+                    el.innerHTML = value;
+                } else {
+                    el.textContent = value;
+                }
+            } else if (Array.isArray(value)) {
+                el.innerHTML = value.map((line) => `<p class="mb-2">${line}</p>`).join("");
+            }
+        });
+
+        // Atributos: data-i18n-attr="aria-label:ruta.al.texto"
+        document.querySelectorAll("[data-i18n-attr]").forEach((el) => {
+            const [attr, key] = (el.getAttribute("data-i18n-attr") ?? "").split(":");
+            const value = key ? resolve(key, t) : undefined;
+            if (attr && typeof value === "string") el.setAttribute(attr, value);
+        });
+
+        // Metadatos de la pestaña
+        const titleKey = document.documentElement.dataset.titleKey ?? "seo.title";
+        const title = resolve(titleKey, t);
+        if (typeof title === "string") document.title = title;
+        document.querySelector('meta[name="description"]')?.setAttribute("content", t.seo.description);
+
+        window.dispatchEvent(
+            new CustomEvent("languageChanged", {
+                detail: { lang: currentLang },
+            }),
+        );
+    }
+
+    function applyLang(lang: Language): void {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        toggle?.setAttribute("aria-checked", String(lang === "en"));
+        translatePage();
+
+        // En la página de inicio la URL refleja el idioma (/ o /en/) sin recargar
+        if (isHomePath() && location.pathname !== homePaths[lang]) {
+            history.replaceState(history.state, "", homePaths[lang] + location.hash);
+        }
+    }
+
+    toggle?.addEventListener("click", () => {
+        const next: Language = currentLang === "es" ? "en" : "es";
+        try {
+            localStorage.setItem(STORAGE_KEY, next);
+        } catch {
+            /* sin storage */
+        }
+        applyLang(next);
+    });
+
+    // Respeta la preferencia guardada si difiere del idioma de la ruta
+    const saved = readSavedLang();
+    if (saved && saved !== currentLang) {
+        applyLang(saved);
+    }
 </script>
 
 <style>

@@ -15,10 +15,10 @@
 
 A single-page, statically generated portfolio with two themes that tell the same story from two sides:
 
-| Theme | Mode | Look & feel |
-| --- | --- | --- |
-| **Classroom** | Light | Whiteboard in an oak frame, markers, index cards and sticky notes |
-| **Geek** | Dark | Terminal window, CRT scanlines, vim status bar and retro-gaming references |
+| Theme         | Mode  | Look & feel                                                                |
+| ------------- | ----- | -------------------------------------------------------------------------- |
+| **Classroom** | Light | Whiteboard in an oak frame, markers, index cards and sticky notes          |
+| **Geek**      | Dark  | Terminal window, CRT scanlines, vim status bar and retro-gaming references |
 
 ### Features
 
@@ -34,15 +34,15 @@ A single-page, statically generated portfolio with two themes that tell the same
 
 ## Tech stack
 
-| Area | Tools |
-| --- | --- |
-| Framework | [Astro 5](https://astro.build) (static site generation) |
-| Styling | [Tailwind CSS 4](https://tailwindcss.com) via `@tailwindcss/vite` |
-| Animation | [GSAP 3](https://gsap.com): ScrollTrigger, SplitText, DrawSVG, TextPlugin |
-| Icons | [astro-icon](https://www.astroicon.dev) + Iconify sets (`devicon`, `simple-icons`, `logos`) |
-| Fonts | `@fontsource`: Playfair Display, Poppins, Caveat, VT323, JetBrains Mono |
-| SEO | `@astrojs/sitemap` |
-| Language | TypeScript (strict) |
+| Area      | Tools                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------- |
+| Framework | [Astro 5](https://astro.build) (static site generation)                                     |
+| Styling   | [Tailwind CSS 4](https://tailwindcss.com) via `@tailwindcss/vite`                           |
+| Animation | [GSAP 3](https://gsap.com): ScrollTrigger, SplitText, DrawSVG, TextPlugin                   |
+| Icons     | [astro-icon](https://www.astroicon.dev) + Iconify sets (`devicon`, `simple-icons`, `logos`) |
+| Fonts     | `@fontsource`: Playfair Display, Poppins, Caveat, VT323, JetBrains Mono                     |
+| SEO       | `@astrojs/sitemap`                                                                          |
+| Language  | TypeScript (strict)                                                                         |
 
 ## Getting started
 
@@ -66,17 +66,17 @@ Open <http://localhost:4321>.
 
 ### Scripts
 
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Start the dev server at `localhost:4321` |
-| `pnpm build` | Build the static site into `./dist` |
-| `pnpm preview` | Serve the production build locally |
-| `pnpm astro ...` | Run Astro CLI commands |
+| Command          | Description                              |
+| ---------------- | ---------------------------------------- |
+| `pnpm dev`       | Start the dev server at `localhost:4321` |
+| `pnpm build`     | Build the static site into `./dist`      |
+| `pnpm preview`   | Serve the production build locally       |
+| `pnpm astro ...` | Run Astro CLI commands                   |
 
 ### Environment variables
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
+| Variable   | Default                       | Purpose                                                                                                        |
+| ---------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `SITE_URL` | `https://irumacode.github.io` | Public URL used for the canonical link, Open Graph tags and sitemap. Set it to the real domain when deploying. |
 
 ## Project structure

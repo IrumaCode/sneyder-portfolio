@@ -5,7 +5,7 @@
 // Aquí va la logica que se ejecuta en BUILDTIME, no en el navegador
 // Similar a un controlador en de Symfony pero se ejecuta al compilar
 
-import { getLang, homePaths, translations, type Language } from '../i18n/translations';
+import { getLang, homePaths, translations, type Language } from "../i18n/translations";
 
 // Props: datos que recibe este componente (como párametros de Twig).
 // Título y descripción salen de translations.seo según el idioma de la ruta.
@@ -19,45 +19,40 @@ interface Props {
 
 const lang = getLang(Astro.currentLocale);
 const seo = translations[lang].seo;
-const {
-    title = seo.title,
-    description = seo.description,
-    noindex = false,
-    titleKey = 'seo.title'
-} = Astro.props;
+const { title = seo.title, description = seo.description, noindex = false, titleKey = "seo.title" } = Astro.props;
 
 // Versiones alternativas de la página de inicio para hreflang
 const alternates = (Object.keys(homePaths) as Language[]).map((code) => ({
     hreflang: code,
-    href: new URL(homePaths[code], Astro.site).href
+    href: new URL(homePaths[code], Astro.site).href,
 }));
-const alternateLocale = translations[lang === 'es' ? 'en' : 'es'].seo.ogLocale;
+const alternateLocale = translations[lang === "es" ? "en" : "es"].seo.ogLocale;
 
 // URLs absolutas a partir de `site` (astro.config.mjs): las redes sociales y Google
 // ignoran rutas relativas en canonical / og:image
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
-const ogImageUrl = new URL('/og-image.png', Astro.site).href;
+const ogImageUrl = new URL("/og-image.png", Astro.site).href;
 
 // Importamos los estilos globales
-import '../styles/global.css';
+import "../styles/global.css";
 
 // Importamos la fuente instalada en el proyecto
-import '@fontsource/playfair-display/400.css';
-import '@fontsource/playfair-display/600.css';
-import '@fontsource/playfair-display/700.css';
-import '@fontsource/playfair-display/400-italic.css';
-import '@fontsource/playfair-display/600-italic.css';
-import '@fontsource/caveat/500.css';
-import '@fontsource/caveat/700.css';
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/600.css';
-import '@fontsource/poppins/700.css';
-import '@fontsource/vt323';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/700.css';
+import "@fontsource/playfair-display/400.css";
+import "@fontsource/playfair-display/600.css";
+import "@fontsource/playfair-display/700.css";
+import "@fontsource/playfair-display/400-italic.css";
+import "@fontsource/playfair-display/600-italic.css";
+import "@fontsource/caveat/500.css";
+import "@fontsource/caveat/700.css";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
+import "@fontsource/vt323";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/700.css";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang={lang} data-theme="classroom" data-title-key={titleKey}>
     <head>
         <meta charset="UTF-8" />
@@ -66,7 +61,9 @@ import '@fontsource/jetbrains-mono/700.css';
         <script is:inline>
             (function () {
                 var theme;
-                try { theme = localStorage.getItem("preferred-theme"); } catch (e) {}
+                try {
+                    theme = localStorage.getItem("preferred-theme");
+                } catch (e) {}
                 if (theme === "manga") theme = "geek";
                 if (theme !== "classroom" && theme !== "geek") {
                     theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "geek" : "classroom";
@@ -81,9 +78,7 @@ import '@fontsource/jetbrains-mono/700.css';
 
         <link rel="canonical" href={canonicalUrl} />
         {noindex && <meta name="robots" content="noindex" />}
-        {!noindex && alternates.map(({ hreflang, href }) => (
-            <link rel="alternate" hreflang={hreflang} href={href} />
-        ))}
+        {!noindex && alternates.map(({ hreflang, href }) => <link rel="alternate" hreflang={hreflang} href={href} />)}
         {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(homePaths.es, Astro.site).href} />}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -109,7 +104,7 @@ import '@fontsource/jetbrains-mono/700.css';
 
         <meta name="generator" content={Astro.generator} />
 
-        <slot name="head"/>
+        <slot name="head" />
     </head>
     <body class="bg-primary text-fg font-body overflow-x-hidden">
         <slot />
