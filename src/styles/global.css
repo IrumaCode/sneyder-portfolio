@@ -80,6 +80,14 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Nada puede ensanchar la página: en Chrome Android un desbordamiento horizontal
+   amplía el viewport y el header fijo se sale de la pantalla. clip (no hidden)
+   no crea contenedor de scroll, así que no afecta a GSAP ni al scroll de la ventana */
+html,
+body {
+    overflow-x: clip;
+}
+
 *,
 *::before,
 *::after {
