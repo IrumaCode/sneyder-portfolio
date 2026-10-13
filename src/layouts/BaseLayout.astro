@@ -42,7 +42,6 @@ import "@fontsource/playfair-display/600.css";
 import "@fontsource/playfair-display/700.css";
 import "@fontsource/playfair-display/400-italic.css";
 import "@fontsource/playfair-display/600-italic.css";
-import "@fontsource/caveat/500.css";
 import "@fontsource/caveat/700.css";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/600.css";
@@ -50,6 +49,11 @@ import "@fontsource/poppins/700.css";
 import "@fontsource/vt323";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/700.css";
+
+// Fuente del texto principal (LCP) de cada tema: se precarga solo la del tema activo
+import playfairBoldUrl from "@fontsource/playfair-display/files/playfair-display-latin-700-normal.woff2?url";
+import vt323Url from "@fontsource/vt323/files/vt323-latin-400-normal.woff2?url";
+const heroFonts = { classroom: playfairBoldUrl, geek: vt323Url };
 ---
 
 <!doctype html>
@@ -57,8 +61,9 @@ import "@fontsource/jetbrains-mono/700.css";
     <head>
         <meta charset="UTF-8" />
 
-        <!-- Tema antes del primer pintado: preferencia guardada o la del sistema -->
-        <script is:inline>
+        <!-- Tema antes del primer pintado (preferencia guardada o la del sistema)
+             y precarga de la fuente del hero de ese tema -->
+        <script is:inline define:vars={{ heroFonts }}>
             (function () {
                 var theme;
                 try {
@@ -69,6 +74,14 @@ import "@fontsource/jetbrains-mono/700.css";
                     theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "geek" : "classroom";
                 }
                 document.documentElement.setAttribute("data-theme", theme);
+
+                var preload = document.createElement("link");
+                preload.rel = "preload";
+                preload.as = "font";
+                preload.type = "font/woff2";
+                preload.crossOrigin = "anonymous";
+                preload.href = heroFonts[theme];
+                document.head.appendChild(preload);
             })();
         </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

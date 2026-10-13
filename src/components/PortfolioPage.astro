@@ -36,6 +36,14 @@ import ContactSection from "./sections/ContactSection.astro";
 </BaseLayout>
 
 <script>
-    import { initScrollAnimations } from "../utils/scroll-animations";
-    initScrollAnimations();
+    // Las animaciones de scroll (ScrollTrigger) se cargan cuando el navegador queda libre:
+    // no compiten con el primer pintado ni con la intro del hero
+    const loadScrollAnimations = () =>
+        import("../utils/scroll-animations").then(({ initScrollAnimations }) => initScrollAnimations());
+
+    if ("requestIdleCallback" in window) {
+        requestIdleCallback(loadScrollAnimations, { timeout: 2000 });
+    } else {
+        setTimeout(loadScrollAnimations, 300);
+    }
 </script>

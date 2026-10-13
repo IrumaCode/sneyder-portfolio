@@ -337,6 +337,7 @@ const boardLines = rest.length > 1 ? [`${firstName} ${rest[0]}`, rest.slice(1).j
             ),
             radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.55) 100%);
         animation: crt-flicker 4s infinite steps(1);
+        will-change: opacity;
     }
 
     .geek-intro > :global(p)::before {
