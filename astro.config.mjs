@@ -9,7 +9,7 @@ import icon from 'astro-icon';
 
 // URL pública del sitio: la usan canonical, Open Graph y el sitemap.
 // Defínela en el entorno de despliegue (SITE_URL=https://tu-dominio.com).
-const SITE_URL = process.env.SITE_URL ?? 'https://sneyder-leguia.github.io';
+const SITE_URL = process.env.SITE_URL ?? 'https://irumacode.github.io';
 
 // https://astro.build/config
 export default defineConfig({
