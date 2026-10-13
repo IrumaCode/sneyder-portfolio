@@ -15,7 +15,7 @@ const t = useTranslations(Astro.currentLocale);
     type="button"
     id="lang-switch"
     role="switch"
-    aria-checked={String(lang === "en")}
+    aria-checked={lang === "en" ? "true" : "false"}
     aria-label={t.ui.languageSwitch}
     data-i18n-attr="aria-label:ui.languageSwitch"
     class="lang-switch control-pill gap-2 px-3 text-xs tracking-wider hover:border-accent"
