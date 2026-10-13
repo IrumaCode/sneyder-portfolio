@@ -1,0 +1,14 @@
+# generado / dependencias
+dist/
+.astro/
+node_modules/
+pnpm-lock.yaml
+
+# assets (SVG generados y binarios)
+public/
+src/assets/
+src/icons/
+
+# configuración local de agentes IA
+.claude/
+CLAUDE.md

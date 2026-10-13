@@ -1,0 +1,8 @@
+# Saltos de línea LF en todos los sistemas (coincide con Prettier y CI)
+* text=auto eol=lf
+
+# Binarios
+*.png binary
+*.ico binary
+*.woff binary
+*.woff2 binary
