@@ -39,7 +39,7 @@ export const translations = {
         ui: {
             themeToLight: 'Cambiar a modo claro (Classroom)',
             themeToDark: 'Cambiar a modo oscuro (Geek)',
-            languageGroup: 'Selector de idioma',
+            languageSwitch: 'Ver en inglés',
             scrollHint: 'Desplázate hacia abajo para ver más contenido',
             heroLabel: 'Presentación personal',
             skipToContent: 'Saltar al contenido',
@@ -193,7 +193,7 @@ export const translations = {
         ui: {
             themeToLight: 'Switch to light mode (Classroom)',
             themeToDark: 'Switch to dark mode (Geek)',
-            languageGroup: 'Language selector',
+            languageSwitch: 'View in English',
             scrollHint: 'Scroll down to see more content',
             heroLabel: 'Personal introduction',
             skipToContent: 'Skip to content',

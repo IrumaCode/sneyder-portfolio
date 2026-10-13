@@ -1,31 +1,38 @@
 ---
+/*
+  LanguageSwitcher: interruptor único ES ⇄ EN (role="switch").
+  Un clic alterna el idioma al instante; aria-checked = inglés activo.
+*/
 import { translations, defaultLang } from "../../i18n/translations";
 const t = translations[defaultLang];
-const buttonClass = "h-full px-4 tracking-wider cursor-pointer text-accent transition-colors duration-300 aria-pressed:bg-accent aria-pressed:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent";
 ---
 
-<!-- Pill toggle: [ ES | EN ] -->
-<div
-    class="control-pill overflow-hidden"
-    role="group"
-    aria-label={t.ui.languageGroup}
-    data-i18n-attr="aria-label:ui.languageGroup"
+<button
+    type="button"
+    id="lang-switch"
+    role="switch"
+    aria-checked="false"
+    aria-label={t.ui.languageSwitch}
+    data-i18n-attr="aria-label:ui.languageSwitch"
+    class="lang-switch control-pill gap-2 px-3 text-xs tracking-wider hover:border-accent"
 >
-    <button type="button" id="lang-es" lang="es" aria-label="Español" aria-pressed="true" class={buttonClass}>ES</button>
-    <span class="w-px h-5 bg-accent/30" aria-hidden="true"></span>
-    <button type="button" id="lang-en" lang="en" aria-label="English" aria-pressed="false" class={buttonClass}>EN</button>
-</div>
+    <span class="lang-es transition-colors" lang="es" aria-hidden="true">ES</span>
+    <span class="relative w-10 h-6 rounded-full bg-accent/15 border border-accent/40 transition-colors" aria-hidden="true">
+        <span class="lang-knob absolute top-0.5 left-0.5 w-[1.125rem] h-[1.125rem] rounded-full bg-accent shadow transition-[translate] duration-300 ease-out"></span>
+    </span>
+    <span class="lang-en transition-colors" lang="en" aria-hidden="true">EN</span>
+</button>
 
 <script>
 import { translations, type Language, defaultLang } from "../../i18n/translations";
 
+const STORAGE_KEY = "preferred-lang";
 let currentLang: Language = defaultLang;
 
-const btnEs = document.getElementById("lang-es") as HTMLButtonElement | null;
-const btnEn = document.getElementById("lang-en") as HTMLButtonElement | null;
+const toggle = document.getElementById("lang-switch") as HTMLButtonElement | null;
 
 function initLanguage(): void {
-    const saved = localStorage.getItem("preferred-lang") as Language | null;
+    const saved = localStorage.getItem(STORAGE_KEY) as Language | null;
     if (saved === "es" || saved === "en") {
         currentLang = saved;
     } else {
@@ -38,8 +45,7 @@ function initLanguage(): void {
 
 function updateUI(): void {
     document.documentElement.lang = currentLang;
-    btnEs?.setAttribute("aria-pressed", String(currentLang === "es"));
-    btnEn?.setAttribute("aria-pressed", String(currentLang === "en"));
+    toggle?.setAttribute("aria-checked", String(currentLang === "en"));
 }
 
 function resolve(path: string, source: unknown): unknown {
@@ -77,18 +83,32 @@ function translatePage(): void {
     }));
 }
 
-function setLang(lang: Language): void {
-    currentLang = lang;
-    localStorage.setItem("preferred-lang", currentLang);
+toggle?.addEventListener("click", () => {
+    currentLang = currentLang === "es" ? "en" : "es";
+    localStorage.setItem(STORAGE_KEY, currentLang);
     updateUI();
     translatePage();
-}
-
-btnEs?.addEventListener("click", () => setLang("es"));
-btnEn?.addEventListener("click", () => setLang("en"));
+});
 
 document.addEventListener("DOMContentLoaded", initLanguage);
 if (document.readyState !== "loading") {
     initLanguage();
 }
 </script>
+
+<style>
+    /* Idioma activo resaltado; la bolita se desliza a la derecha en inglés */
+    .lang-switch .lang-es,
+    .lang-switch[aria-checked="true"] .lang-en {
+        color: var(--color-accent);
+    }
+
+    .lang-switch .lang-en,
+    .lang-switch[aria-checked="true"] .lang-es {
+        color: var(--color-fg-subtle);
+    }
+
+    .lang-switch[aria-checked="true"] .lang-knob {
+        translate: 1rem 0;
+    }
+</style>
