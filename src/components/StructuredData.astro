@@ -1,0 +1,42 @@
+---
+/*
+  StructuredData: JSON-LD (schema.org) de la persona y del sitio.
+  Ayuda a que los buscadores entiendan que el sitio es el perfil profesional
+  de Sneyder (nombre, cargo, empresa, perfiles sociales) en el idioma de la ruta.
+*/
+import { profile } from "../data/profile";
+import { getLang, homePaths, useTranslations } from "../i18n/translations";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(Astro.currentLocale);
+const siteUrl = new URL(homePaths[lang], Astro.site).href;
+
+const graph = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Person",
+            "@id": `${Astro.site}#person`,
+            name: profile.name,
+            url: siteUrl,
+            image: new URL("/og-image.png", Astro.site).href,
+            jobTitle: t.experience.current.title,
+            worksFor: { "@type": "Organization", name: profile.employer },
+            knowsAbout: profile.knowsAbout,
+            knowsLanguage: ["es", "en"],
+            sameAs: Object.values(profile.links),
+        },
+        {
+            "@type": "WebSite",
+            "@id": `${Astro.site}#website`,
+            url: siteUrl,
+            name: t.seo.title,
+            description: t.seo.description,
+            inLanguage: lang,
+            author: { "@id": `${Astro.site}#person` },
+        },
+    ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

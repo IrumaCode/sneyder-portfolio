@@ -2,11 +2,12 @@
 import { Icon } from "astro-icon/components";
 import Logo from "../ui/Logo.astro";
 import { useTranslations } from "../../i18n/translations";
+import { profile } from "../../data/profile";
 const t = useTranslations(Astro.currentLocale);
 
-const EMAIL = "zsneyder@gmail.com";
-const LINKEDIN = "https://www.linkedin.com/in/sneyderla/";
-const GITHUB = "https://github.com/IrumaCode";
+const EMAIL = profile.email;
+const LINKEDIN = profile.links.linkedin;
+const GITHUB = profile.links.github;
 
 const buttonClass =
     "inline-flex items-center justify-center gap-3 h-14 min-w-44 px-7 rounded-full font-bold border transition-[scale,background-color,border-color,box-shadow] duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary";

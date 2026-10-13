@@ -11,9 +11,12 @@ import ExperienceSection from "./sections/ExperienceSection.astro";
 import ProjectsSection from "./sections/ProjectsSection.astro";
 import SkillsSection from "./sections/SkillsSection.astro";
 import ContactSection from "./sections/ContactSection.astro";
+import StructuredData from "./StructuredData.astro";
 ---
 
 <BaseLayout>
+    <StructuredData slot="head" />
+
     <!-- Barra de progreso de scroll -->
     <div
         class="fixed top-0 left-0 right-0 z-[60] h-1 origin-left bg-gradient-to-r from-accent to-highlight motion-reduce:hidden"
