@@ -63,8 +63,9 @@ function playClassroomIntro(panel: HTMLElement): gsap.core.Timeline {
 
     if (role) {
         // aria: "none" evita el aria-label que SplitText pondría en el <p> (no permitido);
-        // el split se revierte al terminar y el texto queda intacto
-        currentSplit = SplitText.create(role, { type: "chars", aria: "none" });
+        // el split se revierte al terminar y el texto queda intacto.
+        // "words,chars": las letras van dentro de su palabra, así no se corta a mitad de palabra en móvil
+        currentSplit = SplitText.create(role, { type: "words,chars", aria: "none" });
         timeline.from(currentSplit.chars, { autoAlpha: 0, y: 6, duration: 0.05, stagger: 0.025 }, "-=0.2");
     }
 
