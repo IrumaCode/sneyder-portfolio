@@ -1,43 +1,116 @@
-# Astro Starter Kit: Minimal
+<p align="center">
+  <img src="public/favicon.svg" alt="SLA monogram" width="96" height="96">
+</p>
+
+<h1 align="center">Sneyder Leguía · Portfolio</h1>
+
+<p align="center">
+  Personal portfolio of a Full Stack Developer with 8 years of teaching experience.<br>
+  Built with <strong>Astro</strong>, <strong>Tailwind CSS 4</strong> and <strong>GSAP</strong>.
+</p>
+
+![Portfolio preview](public/og-image.png)
+
+## About
+
+A single-page, statically generated portfolio with two themes that tell the same story from two sides:
+
+| Theme | Mode | Look & feel |
+| --- | --- | --- |
+| **Classroom** | Light | Whiteboard in an oak frame, markers, index cards and sticky notes |
+| **Geek** | Dark | Terminal window, CRT scanlines, vim status bar and retro-gaming references |
+
+### Features
+
+- **Light / dark themes**: follows the system preference and is applied before the first paint, so there is no flash.
+- **Bilingual (ES / EN)**: all content lives in one typed file and switches in the browser, including aria-labels.
+- **Animated storytelling** with GSAP:
+  - The name is drawn like a marker stroke and the terminal types its commands.
+  - Scroll-driven reveals, counters, a dev + teaching "fusion" diagram and flipping flashcards.
+- **Projects** with a featured private project (Mesmeric ERP) and cards that show repo and demo links automatically once they exist.
+- **Accessible**: single `h1`, skip link, keyboard-friendly navigation, 44px touch targets and AA contrast. Respects `prefers-reduced-motion`.
+- **Performance**: static output, self-hosted fonts and inline SVG icons. No external CDNs.
+- **SEO**: canonical URL, Open Graph and Twitter cards, sitemap.
+
+## Tech stack
+
+| Area | Tools |
+| --- | --- |
+| Framework | [Astro 5](https://astro.build) (static site generation) |
+| Styling | [Tailwind CSS 4](https://tailwindcss.com) via `@tailwindcss/vite` |
+| Animation | [GSAP 3](https://gsap.com): ScrollTrigger, SplitText, DrawSVG, TextPlugin |
+| Icons | [astro-icon](https://www.astroicon.dev) + Iconify sets (`devicon`, `simple-icons`, `logos`) |
+| Fonts | `@fontsource`: Playfair Display, Poppins, Caveat, VT323, JetBrains Mono |
+| SEO | `@astrojs/sitemap` |
+| Language | TypeScript (strict) |
+
+## Getting started
+
+### Requirements
+
+- **Node.js** `18.20.8`, `^20.3.0` or `>=22` (developed with Node 24)
+- **pnpm** `>=9` (developed with pnpm 10). Install it with `npm install -g pnpm` or enable it with `corepack enable`.
+
+### Run locally
 
 ```sh
-pnpm create astro@latest -- --template minimal
+git clone https://github.com/IrumaCode/sneyder-portfolio.git
+cd sneyder-portfolio
+pnpm install
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Open <http://localhost:4321>.
 
-## 🚀 Project Structure
+> If you move or rename files inside `src/icons/`, restart `pnpm dev`. The icon integration reads that folder only at startup.
 
-Inside of your Astro project, you'll see the following folders and files:
+### Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start the dev server at `localhost:4321` |
+| `pnpm build` | Build the static site into `./dist` |
+| `pnpm preview` | Serve the production build locally |
+| `pnpm astro ...` | Run Astro CLI commands |
+
+### Environment variables
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `SITE_URL` | `https://irumacode.github.io` | Public URL used for the canonical link, Open Graph tags and sitemap. Set it to the real domain when deploying. |
+
+## Project structure
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+src/
+├── assets/brand/      # SLA monogram (sla.svg)
+├── components/
+│   ├── sections/      # Hero, Experience, Projects, Skills, Contact
+│   └── ui/            # Header, theme/language switchers, cards, logo
+├── i18n/              # translations.ts: all ES/EN content
+├── icons/             # Custom SVG icons for astro-icon
+├── layouts/           # BaseLayout: meta tags, fonts, theme bootstrap
+├── pages/             # index.astro
+├── styles/            # global.css: design tokens per theme
+└── utils/             # GSAP scroll animations and hero intros
+public/                # Favicons and Open Graph image
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Editing content
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+All text lives in [`src/i18n/translations.ts`](src/i18n/translations.ts). Always update both `es` and `en`.
 
-Any static assets, like images, can be placed in the `public/` directory.
+- **Projects**: fill in `repo` and/or `demo` for an item. The "Coming soon" badge disappears and the buttons show up.
+- **Experience**: the years as a developer are computed at build time from `careerDates.devStart`.
 
-## 🧞 Commands
+## Deployment
 
-All commands are run from the root of the project, from a terminal:
+The output in `./dist` is fully static and can be hosted on any static host, such as Vercel, Netlify, Cloudflare Pages or GitHub Pages.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+```sh
+SITE_URL=https://your-domain.com pnpm build
+```
 
-## 👀 Want to learn more?
+---
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+© Sneyder Leguía Arrieta. All rights reserved.
