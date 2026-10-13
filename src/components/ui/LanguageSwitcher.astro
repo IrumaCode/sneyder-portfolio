@@ -80,7 +80,9 @@ function translatePage(): void {
     });
 
     // Metadatos de la pestaña
-    document.title = t.seo.title;
+    const titleKey = document.documentElement.dataset.titleKey ?? "seo.title";
+    const title = resolve(titleKey, t);
+    if (typeof title === "string") document.title = title;
     document.querySelector('meta[name="description"]')?.setAttribute("content", t.seo.description);
 
     window.dispatchEvent(new CustomEvent("languageChanged", {

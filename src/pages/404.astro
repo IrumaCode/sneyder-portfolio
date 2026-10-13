@@ -1,0 +1,119 @@
+---
+/*
+  404: página no encontrada, con la estética de cada tema.
+  - Classroom: "404" rodeado a marcador y mensaje de aula.
+  - Geek: la terminal intenta hacer `cd` a la ruta pedida y falla.
+  Lleva noindex; el botón de inicio apunta a / o /en/ según el idioma activo.
+*/
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Logo from "../components/ui/Logo.astro";
+import ThemeSwitcher from "../components/ui/ThemeSwitcher.astro";
+import LanguageSwitcher from "../components/ui/LanguageSwitcher.astro";
+import { useTranslations, homePaths } from "../i18n/translations";
+
+const t = useTranslations(Astro.currentLocale);
+---
+
+<BaseLayout title={t.notFound.seoTitle} titleKey="notFound.seoTitle" noindex>
+    <header class="fixed top-4 inset-x-4 md:top-6 md:inset-x-6 z-50 flex items-center justify-between gap-2">
+        <a href={homePaths.es} class="control-pill px-3 sm:px-4 hover:scale-105" data-home-link aria-label={t.ui.home} data-i18n-attr="aria-label:ui.home">
+            <Logo class="h-6 w-auto text-fg" idPrefix="logo-404" />
+        </a>
+        <div class="flex items-center gap-2">
+            <ThemeSwitcher />
+            <LanguageSwitcher />
+        </div>
+    </header>
+
+    <main id="main" class="min-h-svh flex items-center justify-center px-[5%] py-28 bg-gradient-to-br from-secondary to-primary">
+        <div class="w-full max-w-2xl text-center">
+            <h1 class="sr-only" data-i18n="notFound.seoTitle">{t.notFound.seoTitle}</h1>
+
+            <!-- 404 rodeado con marcador (classroom) / pixelado (geek) -->
+            <div class="relative inline-block mb-8">
+                <p class="font-heading text-[7rem] md:text-[10rem] leading-none text-accent" aria-hidden="true">404</p>
+                <svg class="when-classroom absolute -inset-x-8 -inset-y-4 w-[calc(100%+4rem)] h-[calc(100%+2rem)] text-board-red" viewBox="0 0 300 160" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                    <path class="marker-circle" d="M150 12C70 8 14 36 16 82s70 68 140 66 132-30 128-76S214 8 132 18" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <!-- Classroom -->
+            <div class="when-classroom">
+                <p class="font-heading text-3xl md:text-4xl text-fg mb-4" data-i18n="notFound.classroomTitle">{t.notFound.classroomTitle}</p>
+                <p class="text-fg-muted text-lg leading-relaxed mb-10" data-i18n="notFound.classroomText">{t.notFound.classroomText}</p>
+            </div>
+
+            <!-- Geek -->
+            <div class="when-geek mb-10 text-left">
+                <div class="rounded-lg border border-accent/30 bg-geek-black overflow-hidden shadow-xl">
+                    <div class="flex items-center gap-1.5 px-4 py-2 bg-geek-dark border-b border-accent/15" aria-hidden="true">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></span>
+                        <span class="ml-2 font-mono text-xs text-fg-subtle">sneyder@portfolio: ~</span>
+                    </div>
+                    <div class="p-5 font-mono text-sm leading-relaxed">
+                        <p><span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span> <span class="text-geek-green">cd <span data-requested-path>/</span></span></p>
+                        <p class="text-[#ff7b72]">bash: cd: <span data-requested-path>/</span>: <span data-i18n="notFound.geekError">{t.notFound.geekError}</span></p>
+                        <p class="mt-3 text-fg-muted" data-i18n="notFound.geekText">{t.notFound.geekText}</p>
+                        <p class="mt-3"><span class="text-geek-pink">➜</span> <span class="text-geek-cyan">~</span> <span class="geek-cursor inline-block w-[0.6em] h-[1.1em] align-middle bg-geek-green"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <a
+                href={homePaths.es}
+                data-home-link
+                class="inline-flex items-center gap-2 h-12 px-7 rounded-full bg-accent text-primary font-bold transition-[scale,box-shadow] duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+            >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <span data-i18n="notFound.back">{t.notFound.back}</span>
+            </a>
+        </div>
+    </main>
+</BaseLayout>
+
+<script>
+    import { homePaths, type Language } from "../i18n/translations";
+
+    // Muestra en la terminal la ruta que el usuario intentó abrir
+    document.querySelectorAll("[data-requested-path]").forEach((el) => {
+        el.textContent = decodeURIComponent(location.pathname);
+    });
+
+    // El botón de inicio lleva a / o /en/ según el idioma activo
+    function syncHomeLinks(): void {
+        const lang: Language = document.documentElement.lang === "en" ? "en" : "es";
+        document.querySelectorAll<HTMLAnchorElement>("[data-home-link]").forEach((link) => {
+            link.href = homePaths[lang];
+        });
+    }
+
+    window.addEventListener("languageChanged", syncHomeLinks);
+    syncHomeLinks();
+</script>
+
+<style>
+    /* El círculo de marcador se dibuja al cargar */
+    .marker-circle {
+        stroke-dasharray: 900;
+        stroke-dashoffset: 900;
+        animation: draw-circle 1.2s ease-out 0.3s forwards;
+    }
+
+    .geek-cursor {
+        animation: blink 1s steps(1) infinite;
+    }
+
+    @keyframes draw-circle {
+        to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .marker-circle { stroke-dashoffset: 0; }
+    }
+</style>

@@ -13,6 +13,8 @@ interface Props {
     title?: string;
     description?: string;
     noindex?: boolean;
+    /** Clave de translations para el título al cambiar de idioma (por defecto seo.title) */
+    titleKey?: string;
 }
 
 const lang = getLang(Astro.currentLocale);
@@ -20,7 +22,8 @@ const seo = translations[lang].seo;
 const {
     title = seo.title,
     description = seo.description,
-    noindex = false
+    noindex = false,
+    titleKey = 'seo.title'
 } = Astro.props;
 
 // Versiones alternativas de la página de inicio para hreflang
@@ -55,7 +58,7 @@ import '@fontsource/jetbrains-mono/700.css';
 ---
 
 <!DOCTYPE html>
-<html lang={lang} data-theme="classroom">
+<html lang={lang} data-theme="classroom" data-title-key={titleKey}>
     <head>
         <meta charset="UTF-8" />
 

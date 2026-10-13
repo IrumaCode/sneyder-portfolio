@@ -42,6 +42,16 @@ export const translations = {
             ogLocale: 'es_CO'
         },
 
+        // Página 404
+        notFound: {
+            seoTitle: '404 · Página no encontrada | Sneyder Leguía',
+            classroomTitle: 'Esta lección no está en el temario',
+            classroomText: 'La página que buscas fue borrada de la pizarra o nunca existió. Volvamos a clase.',
+            geekError: 'No such file or directory',
+            geekText: 'Error 404: esta ruta no existe en el sistema.',
+            back: 'Volver al inicio'
+        },
+
         // Controles de interfaz (aria-labels)
         ui: {
             themeToLight: 'Cambiar a modo claro (Classroom)',
@@ -201,6 +211,16 @@ export const translations = {
             title: 'Sneyder Leguía | Full Stack Developer',
             description: 'Portfolio of Sneyder Leguía, a Full Stack Developer specialized in React, Vue.js, PHP and Symfony, with 8 years of experience training developers.',
             ogLocale: 'en_US'
+        },
+
+        // 404 page
+        notFound: {
+            seoTitle: '404 · Page not found | Sneyder Leguía',
+            classroomTitle: 'This lesson is not in the syllabus',
+            classroomText: 'The page you are looking for was erased from the whiteboard or never existed. Back to class.',
+            geekError: 'No such file or directory',
+            geekText: 'Error 404: this path does not exist on the system.',
+            back: 'Back to home'
         },
 
         // UI controls (aria-labels)
