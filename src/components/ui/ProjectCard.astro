@@ -2,7 +2,7 @@
 /*
   ProjectCard
   - Con `repo` y/o `demo`: muestra los enlaces y oculta "Muy pronto".
-  - Sin enlaces y status 'coming-soon': muestra el badge "Muy pronto".
+  - Sin enlaces y status 'coming-soon': versión compacta (resumen de una línea) con el badge "Muy pronto".
   - La etiqueta cambia por tema: "Tarea 01" (classroom) / "SIDE QUEST 01" (geek).
 */
 import { Icon } from "astro-icon/components";
@@ -20,6 +20,7 @@ interface Labels {
 interface Props {
     title: string;
     description: string;
+    summary?: string;
     tech: readonly string[];
     index: number;
     repo?: string;
@@ -28,7 +29,7 @@ interface Props {
     labels: Labels;
 }
 
-const { title, description, tech, index, repo, demo, status = "live", labels } = Astro.props;
+const { title, description, summary, tech, index, repo, demo, status = "live", labels } = Astro.props;
 
 const hasLinks = Boolean(repo || demo);
 const isComingSoon = !hasLinks && status === "coming-soon";
@@ -39,10 +40,10 @@ const linkClass =
 
 <article
     class:list={[
-        "group relative rounded-xl p-6 md:p-8 flex flex-col border transition-[translate,background-color,border-color,box-shadow] duration-300",
+        "group relative rounded-xl flex flex-col border transition-[translate,background-color,border-color,box-shadow] duration-300",
         isComingSoon
-            ? "bg-secondary/50 border-dashed border-accent/30"
-            : "bg-secondary border-accent/20 hover:border-accent/60 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]",
+            ? "p-5 md:p-6 bg-secondary/50 border-dashed border-accent/30"
+            : "p-6 md:p-8 bg-secondary border-accent/20 hover:border-accent/60 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]",
     ]}
 >
     <div class="flex items-center justify-between gap-3 mb-4">
@@ -66,16 +67,22 @@ const linkClass =
         )}
     </div>
 
-    <h3 class="font-heading text-xl md:text-2xl text-fg mb-3" data-i18n={`projects.items.${index}.title`}>
+    <h3
+        class:list={["font-heading text-fg mb-2", isComingSoon ? "text-lg md:text-xl" : "text-xl md:text-2xl"]}
+        data-i18n={`projects.items.${index}.title`}
+    >
         {title}
     </h3>
 
-    <p
-        class:list={["text-sm leading-relaxed mb-6 flex-1", isComingSoon ? "text-fg-subtle" : "text-fg-muted"]}
-        data-i18n={`projects.items.${index}.description`}
-    >
-        {description}
-    </p>
+    {isComingSoon && summary ? (
+        <p class="text-sm leading-relaxed mb-4 flex-1 text-fg-muted" data-i18n={`projects.items.${index}.summary`}>
+            {summary}
+        </p>
+    ) : (
+        <p class="text-sm leading-relaxed mb-6 flex-1 text-fg-muted" data-i18n={`projects.items.${index}.description`}>
+            {description}
+        </p>
+    )}
 
     <ul class="flex flex-wrap gap-2">
         {tech.map((item) => (

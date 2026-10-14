@@ -163,6 +163,8 @@ export const translations = {
             comingSoon: "Muy pronto",
             privateBadge: "Privado · En producción",
             privateNote: "Código privado de la empresa: sin repositorio público",
+            upcomingTitle: "Próximos proyectos",
+            upcomingIntro: "Proyectos personales en preparación. Cada uno se publicará con su repositorio y demo.",
             // Etiqueta de cada proyecto según el tema
             labels: {
                 featuredClassroom: "Proyecto principal",
@@ -187,6 +189,7 @@ export const translations = {
             items: [
                 {
                     title: "Mi Calificación - Sistema de Gestión de Notas",
+                    summary: "Gestión de notas con roles docente/estudiante y avisos automáticos con n8n.",
                     description:
                         "CRUD completo para gestión académica donde docentes pueden subir, editar y descargar consolidados de calificaciones. Sistema de autenticación con roles diferenciados: estudiantes solo visualizan mientras profesores tienen control total. Integración con n8n para notificaciones automáticas cuando las notas están disponibles.",
                     tech: ["Vue.js", "TypeScript", "C# / .NET", "PostgreSQL", "n8n"],
@@ -196,6 +199,7 @@ export const translations = {
                 },
                 {
                     title: "Comparador de Motos - MotoCompare",
+                    summary: "Comparador de especificaciones de motos con GraphQL y gráficos comparativos.",
                     description:
                         "Plataforma interactiva para comparar especificaciones técnicas de motocicletas: potencia, torque, precio, cilindrada y más. Implementación de GraphQL para consultas flexibles y optimizadas. Visualización de datos con gráficos comparativos y filtros avanzados por categoría, marca y rango de precio.",
                     tech: ["React", "GraphQL", "Node.js", "Chart.js", "PostgreSQL"],
@@ -205,6 +209,7 @@ export const translations = {
                 },
                 {
                     title: "GymFlow - Gestión Inteligente de Gimnasio",
+                    summary: "Reservas de gimnasio con ocupación en tiempo real (Socket.io) y pagos con Stripe.",
                     description:
                         "Sistema de reservas para evitar saturación del gimnasio. Los usuarios notifican su hora de llegada en tiempo real. Incluye dashboard administrativo, sistema de pagos con Stripe (modo demo), visualización de ocupación en vivo con Socket.io, y gestión completa de membresías.",
                     tech: ["React", "TypeScript", "Node.js", "Socket.io", "Stripe", "PostgreSQL"],
@@ -370,6 +375,8 @@ export const translations = {
             comingSoon: "Coming Soon",
             privateBadge: "Private · In production",
             privateNote: "Private company code: no public repository",
+            upcomingTitle: "Up next",
+            upcomingIntro: "Personal projects in the works. Each one will ship with its repository and live demo.",
             // Per-theme project label
             labels: {
                 featuredClassroom: "Main project",
@@ -394,6 +401,7 @@ export const translations = {
             items: [
                 {
                     title: "My Grading - Grade Management System",
+                    summary: "Grade management with teacher/student roles and automatic n8n notifications.",
                     description:
                         "Complete CRUD for academic management where teachers can upload, edit and download grade reports. Authentication system with differentiated roles: students only view while teachers have full control. Integration with n8n for automatic notifications when grades are available.",
                     tech: ["Vue.js", "TypeScript", "C# / .NET", "PostgreSQL", "n8n"],
@@ -403,6 +411,7 @@ export const translations = {
                 },
                 {
                     title: "Motorcycle Comparator - MotoCompare",
+                    summary: "Motorcycle spec comparator with GraphQL and comparative charts.",
                     description:
                         "Interactive platform to compare motorcycle technical specifications: power, torque, price, displacement and more. GraphQL implementation for flexible and optimized queries. Data visualization with comparative charts and advanced filters by category, brand and price range.",
                     tech: ["React", "GraphQL", "Node.js", "Chart.js", "PostgreSQL"],
@@ -412,6 +421,7 @@ export const translations = {
                 },
                 {
                     title: "GymFlow - Smart Gym Management",
+                    summary: "Gym booking with real-time occupancy (Socket.io) and Stripe payments.",
                     description:
                         "Reservation system to avoid gym overcrowding. Users notify their arrival time in real-time. Includes administrative dashboard, Stripe payment system (demo mode), live occupancy visualization with Socket.io, and complete membership management.",
                     tech: ["React", "TypeScript", "Node.js", "Socket.io", "Stripe", "PostgreSQL"],
