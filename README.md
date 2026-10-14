@@ -27,10 +27,12 @@ A single-page, statically generated portfolio with two themes that tell the same
 - **Animated storytelling** with GSAP:
   - The name is drawn like a marker stroke and the terminal types its commands.
   - Scroll-driven reveals, counters, a dev + teaching "fusion" diagram and flipping flashcards.
-- **Projects** with a featured private project (Mesmeric ERP) and cards that show repo and demo links automatically once they exist.
+- **Projects**: a featured private project (Mesmeric ERP) with measurable achievements, plus compact "up next" cards that turn into full cards with repo and demo links once they exist.
+- **Resume page** at `/cv` and `/en/cv` in the portfolio style, with print styles and downloadable A4 PDFs. Phone and email are intentionally left out; only LinkedIn is shown.
 - **Accessible**: single `h1`, skip link, keyboard-friendly navigation, 44px touch targets and AA contrast. Respects `prefers-reduced-motion`.
 - **Performance**: static output, self-hosted fonts and inline SVG icons. No external CDNs.
-- **SEO**: canonical URL, `hreflang` alternates, Open Graph and Twitter cards, sitemap, `robots.txt` and a themed 404 page.
+- **SEO**: canonical URL, `hreflang` alternates, Open Graph and Twitter cards, JSON-LD (Person and WebSite), sitemap, `robots.txt` and a themed 404 page.
+- **Security**: strict Content-Security-Policy with SHA-256 hashes for inline scripts (no `unsafe-inline` for scripts), plus HSTS, `nosniff`, frame and referrer policies.
 
 ## Tech stack
 
@@ -74,6 +76,7 @@ Open <http://localhost:4321>.
 | `pnpm check`     | Type-check the project with astro check  |
 | `pnpm format`    | Format the codebase with Prettier        |
 | `pnpm verify`    | Type check, format check and build       |
+| `pnpm cv:pdf`    | Build and regenerate the resume PDFs     |
 | `pnpm astro ...` | Run Astro CLI commands                   |
 
 Every push and pull request runs the same checks in GitHub Actions ([ci.yml](.github/workflows/ci.yml)).
@@ -91,14 +94,18 @@ src/
 ├── assets/brand/      # SLA monogram (sla.svg)
 ├── components/
 │   ├── sections/      # Hero, Experience, Projects, Skills, Contact
-│   └── ui/            # Header, theme/language switchers, cards, logo
-├── i18n/              # translations.ts: all ES/EN content
+│   ├── ui/            # Header, theme/language switchers, cards, logo
+│   ├── PortfolioPage.astro, CvPage.astro, StructuredData.astro
+├── data/              # profile.ts: name and public links
+├── i18n/              # translations.ts and cv.ts: all ES/EN content
 ├── icons/             # Custom SVG icons for astro-icon
 ├── layouts/           # BaseLayout: meta tags, fonts, theme bootstrap
-├── pages/             # index.astro
+├── pages/             # /, /en/, /cv, /en/cv, 404, robots.txt
 ├── styles/            # global.css: design tokens per theme
 └── utils/             # GSAP scroll animations and hero intros
-public/                # Favicons and Open Graph image
+public/                # Favicons, Open Graph image, resume PDFs and _headers
+integrations/          # csp-headers.mjs: builds the CSP with inline-script hashes
+scripts/               # cv-pdf.mjs: renders the resume PDFs
 ```
 
 ## Editing content
@@ -107,6 +114,7 @@ All text lives in [`src/i18n/translations.ts`](src/i18n/translations.ts). Always
 
 - **Projects**: fill in `repo` and/or `demo` for an item. The "Coming soon" badge disappears and the buttons show up.
 - **Experience**: the years as a developer are computed at build time from `careerDates.devStart`.
+- **Resume**: edit [`src/i18n/cv.ts`](src/i18n/cv.ts), then run `pnpm cv:pdf` to regenerate the PDFs in `public/cv/`. It uses the installed Edge or Chrome; set `CV_PDF_BROWSER=chrome` to force Chrome.
 
 ## Deployment
 
@@ -122,6 +130,7 @@ Live at **<https://sneyderla.dev>**, hosted on **Cloudflare Pages** with automat
 
 - Every push to `main` deploys to production, and pull requests get preview URLs.
 - [`public/_headers`](public/_headers) sets security headers and long-term caching for hashed assets.
+- The Content-Security-Policy placeholder in `_headers` is filled at build time by [`integrations/csp-headers.mjs`](integrations/csp-headers.mjs) with the hashes of every inline script.
 - It also adds `noindex` on `*.pages.dev` preview URLs, so only `sneyderla.dev` is indexed.
 
 The output in `./dist` is fully static, so it also works on any other static host.
