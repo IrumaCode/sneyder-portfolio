@@ -4,19 +4,24 @@
   SiteHeader
   ============================================
   Barra fija: logo · navegación por secciones · tema · idioma.
-  - Desktop: enlaces visibles; la sección activa se marca con aria-current.
+  - Desktop (≥1024px): enlaces visibles; la sección activa se marca con aria-current.
+  - Enlaces a la portada del idioma (#seccion) y al CV; se actualizan al cambiar de idioma.
   - Móvil: botón de menú con panel desplegable (Escape o clic en enlace cierra).
   - Incluye el skip link para usuarios de teclado.
 */
 import Logo from "./Logo.astro";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
-import { useTranslations } from "../../i18n/translations";
+import { cvPaths, getLang, homePaths, useTranslations } from "../../i18n/translations";
 
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(Astro.currentLocale);
 const sections = ["experience", "projects", "skills", "contact"] as const;
+// Los enlaces apuntan a la portada del idioma (funcionan también desde /cv)
+const currentPath = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const isCvPage = currentPath === cvPaths[lang];
 const linkClass =
-    "px-3 h-9 inline-flex items-center rounded-full text-fg-muted hover:text-fg hover:bg-accent/10 aria-[current=true]:bg-accent aria-[current=true]:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
+    "px-3 h-9 inline-flex items-center rounded-full text-fg-muted hover:text-fg hover:bg-accent/10 aria-[current=true]:bg-accent aria-[current=true]:text-primary aria-[current=page]:bg-accent aria-[current=page]:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 ---
 
 <a
@@ -30,7 +35,9 @@ const linkClass =
 <header class="fixed top-4 inset-x-4 md:top-6 md:inset-x-6 z-50 flex items-center justify-between gap-2 pointer-events-none [&>*]:pointer-events-auto">
     <!-- Logo -->
     <a
-        href="#hero"
+        href={`${homePaths[lang]}#hero`}
+        data-route="home"
+        data-hash="#hero"
         class="control-pill px-3 sm:px-4 hover:scale-105"
         aria-label={t.ui.home}
         data-i18n-attr="aria-label:ui.home"
@@ -39,15 +46,33 @@ const linkClass =
     </a>
 
     <!-- Navegación desktop -->
-    <nav class="hidden md:block" aria-label={t.ui.mainNav} data-i18n-attr="aria-label:ui.mainNav">
+    <nav class="hidden lg:block" aria-label={t.ui.mainNav} data-i18n-attr="aria-label:ui.mainNav">
         <ul class="control-pill gap-1 px-1 text-sm font-semibold">
             {sections.map((id) => (
                 <li>
-                    <a href={`#${id}`} class={linkClass} data-nav-link={id} data-i18n={`nav.${id}`}>
+                    <a
+                        href={`${homePaths[lang]}#${id}`}
+                        class={linkClass}
+                        data-nav-link={id}
+                        data-route="home"
+                        data-hash={`#${id}`}
+                        data-i18n={`nav.${id}`}
+                    >
                         {t.nav[id]}
                     </a>
                 </li>
             ))}
+            <li>
+                <a
+                    href={cvPaths[lang]}
+                    class={linkClass}
+                    data-route="cv"
+                    aria-current={isCvPage ? "page" : undefined}
+                    data-i18n="nav.cv"
+                >
+                    {t.nav.cv}
+                </a>
+            </li>
         </ul>
     </nav>
 
@@ -59,7 +84,7 @@ const linkClass =
         <button
             type="button"
             id="menu-toggle"
-            class="control-pill w-11 justify-center md:hidden text-accent"
+            class="control-pill w-11 justify-center lg:hidden text-accent"
             aria-expanded="false"
             aria-controls="mobile-menu"
             aria-label={t.ui.openMenu}
@@ -83,7 +108,7 @@ const linkClass =
 
     <nav
         id="mobile-menu"
-        class="md:hidden absolute top-14 right-0 w-56 rounded-2xl border border-accent/30 bg-secondary/95 backdrop-blur-md shadow-xl p-2"
+        class="lg:hidden absolute top-14 right-0 w-56 rounded-2xl border border-accent/30 bg-secondary/95 backdrop-blur-md shadow-xl p-2"
         aria-label={t.ui.mainNav}
         data-i18n-attr="aria-label:ui.mainNav"
         hidden
@@ -91,16 +116,36 @@ const linkClass =
         <ul class="flex flex-col gap-1 text-base font-semibold">
             {sections.map((id) => (
                 <li>
-                    <a href={`#${id}`} class={`${linkClass} w-full h-11`} data-nav-link={id} data-i18n={`nav.${id}`}>
+                    <a
+                        href={`${homePaths[lang]}#${id}`}
+                        class={`${linkClass} w-full h-11`}
+                        data-nav-link={id}
+                        data-route="home"
+                        data-hash={`#${id}`}
+                        data-i18n={`nav.${id}`}
+                    >
                         {t.nav[id]}
                     </a>
                 </li>
             ))}
+            <li>
+                <a
+                    href={cvPaths[lang]}
+                    class={`${linkClass} w-full h-11`}
+                    data-route="cv"
+                    aria-current={isCvPage ? "page" : undefined}
+                    data-i18n="nav.cv"
+                >
+                    {t.nav.cv}
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
 
 <script>
+    import { cvPaths, homePaths, type Language } from "../../i18n/translations";
+
     const toggle = document.getElementById("menu-toggle");
     const menu = document.getElementById("mobile-menu");
 
@@ -128,7 +173,19 @@ const linkClass =
         if (!menu.contains(target) && !toggle?.contains(target)) setMenu(false);
     });
     window.addEventListener("themeChanged", () => setMenu(false));
-    window.addEventListener("languageChanged", () => setMenu(false));
+    window.addEventListener("languageChanged", () => {
+        setMenu(false);
+        syncLocalizedLinks();
+    });
+
+    // Al cambiar de idioma sin recargar, los enlaces apuntan a la página del nuevo idioma
+    function syncLocalizedLinks(): void {
+        const lang: Language = document.documentElement.lang === "en" ? "en" : "es";
+        document.querySelectorAll<HTMLAnchorElement>("[data-route]").forEach((link) => {
+            const base = link.dataset.route === "cv" ? cvPaths[lang] : homePaths[lang];
+            link.href = base + (link.dataset.hash ?? "");
+        });
+    }
 
     // Sección activa: la que ocupa la franja central del viewport
     const links = document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]");

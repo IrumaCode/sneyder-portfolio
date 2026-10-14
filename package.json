@@ -14,7 +14,8 @@
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "verify": "pnpm check && pnpm format:check && pnpm build"
+    "verify": "pnpm check && pnpm format:check && pnpm build",
+    "cv:pdf": "astro build && node scripts/cv-pdf.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "playwright-core": "1.55.1",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
     "typescript": "^5.9.3"

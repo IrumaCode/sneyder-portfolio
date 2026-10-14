@@ -1,8 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
 import Logo from "../ui/Logo.astro";
-import { useTranslations } from "../../i18n/translations";
+import { cvPaths, getLang, useTranslations } from "../../i18n/translations";
 import { profile } from "../../data/profile";
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(Astro.currentLocale);
 
 const EMAIL = profile.email;
@@ -10,7 +11,7 @@ const LINKEDIN = profile.links.linkedin;
 const GITHUB = profile.links.github;
 
 const buttonClass =
-    "inline-flex items-center justify-center gap-3 h-14 min-w-44 px-7 rounded-full font-bold border transition-[scale,background-color,border-color,box-shadow] duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary";
+    "inline-flex items-center justify-center gap-3 h-14 w-full px-6 rounded-full font-bold border transition-[scale,background-color,border-color,box-shadow] duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary";
 ---
 
 <section id="contact" class="py-24 px-[5%] bg-gradient-to-b from-primary to-secondary">
@@ -28,7 +29,7 @@ const buttonClass =
         </p>
 
         <!-- Canales de contacto -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-anim="stagger">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto" data-anim="stagger">
             <a
                 href={`mailto:${EMAIL}`}
                 class={`${buttonClass} bg-secondary text-fg border-accent/50 hover:border-accent shadow-lg shadow-accent/10 hover:shadow-accent/30`}
@@ -61,6 +62,27 @@ const buttonClass =
             >
                 <Icon name="simple-icons:github" class="w-5 h-5" aria-hidden="true" />
                 GitHub
+            </a>
+
+            <a
+                href={cvPaths[lang]}
+                data-route="cv"
+                class={`${buttonClass} bg-accent text-primary border-accent hover:shadow-lg hover:shadow-accent/30`}
+            >
+                <svg
+                    class="w-5 h-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                    <path d="M14 3v6h6M8 13h8M8 17h5" />
+                </svg>
+                <span data-i18n="contact.cvButton">{t.contact.cvButton}</span>
             </a>
         </div>
 

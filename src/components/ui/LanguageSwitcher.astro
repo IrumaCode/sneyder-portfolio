@@ -35,17 +35,13 @@ const t = useTranslations(Astro.currentLocale);
 </button>
 
 <script>
-    import { translations, homePaths, type Language } from "../../i18n/translations";
+    import { translations, findLocalizedRoute, type Language } from "../../i18n/translations";
 
     const STORAGE_KEY = "preferred-lang";
     const toggle = document.getElementById("lang-switch") as HTMLButtonElement | null;
 
     // El HTML llega ya renderizado en el idioma de la ruta
     let currentLang: Language = document.documentElement.lang === "en" ? "en" : "es";
-
-    function isHomePath(): boolean {
-        return Object.values(homePaths).includes(location.pathname);
-    }
 
     function readSavedLang(): Language | null {
         try {
@@ -105,9 +101,10 @@ const t = useTranslations(Astro.currentLocale);
         toggle?.setAttribute("aria-checked", String(lang === "en"));
         translatePage();
 
-        // En la página de inicio la URL refleja el idioma (/ o /en/) sin recargar
-        if (isHomePath() && location.pathname !== homePaths[lang]) {
-            history.replaceState(history.state, "", homePaths[lang] + location.hash);
+        // En las páginas bilingües la URL refleja el idioma (/ ↔ /en/, /cv/ ↔ /en/cv/) sin recargar
+        const route = findLocalizedRoute(location.pathname);
+        if (route && location.pathname !== route[lang]) {
+            history.replaceState(history.state, "", route[lang] + location.hash);
         }
     }
 

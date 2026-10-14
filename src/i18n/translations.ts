@@ -14,6 +14,8 @@
     =======================================================================
  */
 
+import { cvContent } from "./cv";
+
 // Definimos los idiomas disponibles
 export type Language = "es" | "en";
 
@@ -43,6 +45,9 @@ export const translations = {
             ogLocale: "es_CO",
         },
 
+        // Página del CV (/cv)
+        cv: cvContent.es,
+
         // Página 404
         notFound: {
             seoTitle: "404 · Página no encontrada | Sneyder Leguía",
@@ -71,6 +76,7 @@ export const translations = {
             projects: "Proyectos",
             skills: "Habilidades",
             contact: "Contacto",
+            cv: "CV",
         },
 
         // Hero section
@@ -238,6 +244,7 @@ export const translations = {
             title: "¿Colaboramos?",
             subtitle: "Siempre abierto a nuevos desafíos y proyectos épicos. ¡Hagamos algo increíble juntos!",
             emailButton: "Correo",
+            cvButton: "Ver CV",
             emailLabel: "Enviar un correo",
             copyEmail: "Copiar correo",
             copied: "¡Correo copiado!",
@@ -254,6 +261,9 @@ export const translations = {
                 "Portfolio of Sneyder Leguía, a Full Stack Developer specialized in React, Vue.js, PHP and Symfony, with 8 years of experience training developers.",
             ogLocale: "en_US",
         },
+
+        // Resume page (/en/cv)
+        cv: cvContent.en,
 
         // 404 page
         notFound: {
@@ -284,6 +294,7 @@ export const translations = {
             projects: "Projects",
             skills: "Skills",
             contact: "Contact",
+            cv: "Resume",
         },
 
         // Hero Section
@@ -451,6 +462,7 @@ export const translations = {
             title: "Let's Work Together?",
             subtitle: "Always open to new challenges and collaboration opportunities",
             emailButton: "Email",
+            cvButton: "View resume",
             emailLabel: "Send an email",
             copyEmail: "Copy email",
             copied: "Email copied!",
@@ -477,6 +489,18 @@ export function useTranslations(locale: string | undefined) {
 
 // Ruta de la página de inicio para cada idioma
 export const homePaths: Record<Language, string> = { es: "/", en: "/en/" };
+
+// Ruta del CV para cada idioma
+export const cvPaths: Record<Language, string> = { es: "/cv/", en: "/en/cv/" };
+
+// Páginas que existen en ambos idiomas: alimentan hreflang y el cambio de idioma sin recargar
+export const localizedRoutes: readonly Record<Language, string>[] = [homePaths, cvPaths];
+
+// Par de rutas al que pertenece una URL (tolera la barra final ausente)
+export function findLocalizedRoute(pathname: string): Record<Language, string> | undefined {
+    const path = pathname.endsWith("/") ? pathname : `${pathname}/`;
+    return localizedRoutes.find((route) => route.es === path || route.en === path);
+}
 
 // Años completos transcurridos desde una fecha ISO (se evalúa en build)
 export function yearsSince(isoDate: string, now: Date = new Date()): number {

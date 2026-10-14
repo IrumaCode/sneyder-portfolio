@@ -5,7 +5,7 @@
 // Aquí va la logica que se ejecuta en BUILDTIME, no en el navegador
 // Similar a un controlador en de Symfony pero se ejecuta al compilar
 
-import { getLang, homePaths, translations, type Language } from "../i18n/translations";
+import { findLocalizedRoute, getLang, homePaths, translations, type Language } from "../i18n/translations";
 
 // Props: datos que recibe este componente (como párametros de Twig).
 // Título y descripción salen de translations.seo según el idioma de la ruta.
@@ -22,9 +22,10 @@ const seo = translations[lang].seo;
 const { title = seo.title, description = seo.description, noindex = false, titleKey = "seo.title" } = Astro.props;
 
 // Versiones alternativas de la página de inicio para hreflang
-const alternates = (Object.keys(homePaths) as Language[]).map((code) => ({
+const route = findLocalizedRoute(Astro.url.pathname) ?? homePaths;
+const alternates = (Object.keys(route) as Language[]).map((code) => ({
     hreflang: code,
-    href: new URL(homePaths[code], Astro.site).href,
+    href: new URL(route[code], Astro.site).href,
 }));
 const alternateLocale = translations[lang === "es" ? "en" : "es"].seo.ogLocale;
 
@@ -92,7 +93,7 @@ const heroFonts = { classroom: playfairBoldUrl, geek: vt323Url };
         <link rel="canonical" href={canonicalUrl} />
         {noindex && <meta name="robots" content="noindex" />}
         {!noindex && alternates.map(({ hreflang, href }) => <link rel="alternate" hreflang={hreflang} href={href} />)}
-        {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(homePaths.es, Astro.site).href} />}
+        {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(route.es, Astro.site).href} />}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
