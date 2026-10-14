@@ -6,6 +6,8 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  # Lo completa integrations/csp-headers.mjs en cada build (hashes de scripts inline)
+  Content-Security-Policy: __CSP__
 
 # Assets con hash en el nombre: caché de un año
 /_astro/*

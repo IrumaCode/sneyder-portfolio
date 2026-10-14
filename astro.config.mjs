@@ -7,6 +7,8 @@ import sitemap from "@astrojs/sitemap";
 
 import icon from "astro-icon";
 
+import cspHeaders from "./integrations/csp-headers.mjs";
+
 // URL pública del sitio: la usan canonical, Open Graph y el sitemap.
 // Dominio oficial por defecto; se puede sobrescribir con la variable SITE_URL.
 const SITE_URL = process.env.SITE_URL ?? "https://sneyderla.dev";
@@ -32,5 +34,7 @@ export default defineConfig({
             i18n: { defaultLocale: "es", locales: { es: "es", en: "en" } },
         }),
         icon(),
+        // Content-Security-Policy con hashes de scripts inline (escribe dist/_headers)
+        cspHeaders(),
     ],
 });
