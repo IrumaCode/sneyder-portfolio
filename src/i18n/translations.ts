@@ -101,8 +101,8 @@ export const translations = {
                 company: "Offimedicas S.A.",
                 period: "Mayo 2024 – Presente",
                 description:
-                    "Desarrollo de sistemas de gestión farmacéutica utilizando React, React Native, PHP/Symfony y MySQL. Implementación de dashboards interactivos, APIs RESTful y aplicaciones móviles para optimizar procesos logísticos y de dispensación.",
-                highlights: ["React & React Native", "PHP/Symfony", "MySQL", "REST APIs"],
+                    "Análisis, desarrollo y mantenimiento de Mesmeric, el ERP crítico de inventario farmacéutico y dispensación de medicamentos: integración con la API SIIFA (MinSalud), exportación de 1.000.000 de registros a Excel en menos de 1 minuto con C y Bun FFI, y optimización de SQL sobre MariaDB.",
+                highlights: ["PHP/Symfony", "MariaDB", "APIs REST · SIIFA", "C + Bun FFI", "React Native"],
             },
             fusion: {
                 eyebrow: "Dos trayectorias, un perfil",
@@ -112,9 +112,9 @@ export const translations = {
             },
             teaching: {
                 title: "Lo que me dejaron 8 años en el aula",
-                role: "Docente en Desarrollo Web e Informática",
-                org: "Ministerio de Educación e instituciones de formación técnica",
-                period: "Febrero 2016 – Enero 2024",
+                role: "Formador en Informática y Tecnología (Desarrollo Web)",
+                org: "Ministerio de Educación",
+                period: "Febrero 2016 – Febrero 2024",
                 rulerLabel: "años en el aula",
                 skills: [
                     {
@@ -127,7 +127,7 @@ export const translations = {
                         icon: "🧭",
                         title: "Mentoría",
                         description:
-                            "Acompañé a estudiantes desde su primera línea de código; hoy lo aplico en code reviews y onboarding.",
+                            "Formé a más de 1000 estudiantes desde su primera línea de código; hoy lo aplico en code reviews y onboarding.",
                     },
                     {
                         icon: "👥",
@@ -178,13 +178,14 @@ export const translations = {
                 company: "Offimedicas S.A.",
                 description:
                     "ERP empresarial legacy con el que Offimedicas gestiona el inventario y la dispensación de medicamentos e insumos. Es el sistema que mantengo y modernizo día a día sobre Symfony, MariaDB, jQuery y Bootstrap.",
-                rolesTitle: "Mi rol",
+                rolesTitle: "Logros clave",
                 roles: [
-                    "Mantenimiento evolutivo y correctivo en producción",
-                    "Refactorización de código heredado",
-                    "Diseño y desarrollo de nuevos módulos",
+                    "Módulo de Glosas y Devoluciones integrado con la API SIIFA (MinSalud): JWT, sincronización y respuestas masivas",
+                    "Exportación masiva con C y Bun FFI: 1.000.000 de registros a Excel en menos de 1 minuto",
+                    "Optimización de SQL en MariaDB para reportes de facturación de alto volumen",
+                    "Refactorización de módulos legacy con SOLID, Service Layer y Repository",
                 ],
-                tech: ["PHP", "Symfony", "MariaDB", "jQuery", "Bootstrap", "JavaScript"],
+                tech: ["PHP", "Symfony", "Twig", "MariaDB", "jQuery", "C + Bun FFI", "Go"],
             },
             items: [
                 {
@@ -313,8 +314,8 @@ export const translations = {
                 company: "Offimedicas S.A.",
                 period: "May 2024 – Present",
                 description:
-                    "Development of pharmaceutical management systems using React, React Native, PHP/Symfony and MySQL. Implementation of interactive dashboards, RESTful APIs and mobile applications to optimize logistics and dispensing processes.",
-                highlights: ["React & React Native", "PHP/Symfony", "MySQL", "REST APIs"],
+                    "Analysis, development and maintenance of Mesmeric, the mission-critical ERP for pharmaceutical inventory and medication dispensing: SIIFA API integration (Ministry of Health), exporting 1,000,000 records to Excel in under 1 minute with C and Bun FFI, and SQL optimization on MariaDB.",
+                highlights: ["PHP/Symfony", "MariaDB", "REST APIs · SIIFA", "C + Bun FFI", "React Native"],
             },
             fusion: {
                 eyebrow: "Two paths, one profile",
@@ -324,9 +325,9 @@ export const translations = {
             },
             teaching: {
                 title: "What 8 years in the classroom taught me",
-                role: "Web Development & Computer Science Instructor",
-                org: "Ministry of Education and technical training institutions",
-                period: "February 2016 – January 2024",
+                role: "Computer Science & Technology Instructor (Web Development)",
+                org: "Ministry of Education",
+                period: "February 2016 – February 2024",
                 rulerLabel: "years in the classroom",
                 skills: [
                     {
@@ -338,7 +339,7 @@ export const translations = {
                         icon: "🧭",
                         title: "Mentoring",
                         description:
-                            "I guided students from their very first line of code; today I apply it in code reviews and onboarding.",
+                            "I trained more than 1,000 students from their very first line of code; today I apply it in code reviews and onboarding.",
                     },
                     {
                         icon: "👥",
@@ -390,13 +391,14 @@ export const translations = {
                 company: "Offimedicas S.A.",
                 description:
                     "Legacy enterprise ERP that Offimedicas uses to manage the inventory and dispensing of medicines and medical supplies. It is the system I maintain and modernize every day on Symfony, MariaDB, jQuery and Bootstrap.",
-                rolesTitle: "My role",
+                rolesTitle: "Key achievements",
                 roles: [
-                    "Evolutionary and corrective maintenance in production",
-                    "Refactoring legacy code",
-                    "Designing and building new modules",
+                    "Claims and Returns module integrated with the SIIFA API (Ministry of Health): JWT, sync and bulk responses",
+                    "Bulk export with C and Bun FFI: 1,000,000 records to Excel in under 1 minute",
+                    "SQL optimization on MariaDB for high-volume billing reports",
+                    "Refactoring of legacy modules with SOLID, Service Layer and Repository",
                 ],
-                tech: ["PHP", "Symfony", "MariaDB", "jQuery", "Bootstrap", "JavaScript"],
+                tech: ["PHP", "Symfony", "Twig", "MariaDB", "jQuery", "C + Bun FFI", "Go"],
             },
             items: [
                 {
