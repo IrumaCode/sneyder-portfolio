@@ -208,11 +208,11 @@ export const translations = {
                     title: "Comparador de Motos - MotoCompare",
                     summary: "Comparador de especificaciones de motos con GraphQL y gráficos comparativos.",
                     description:
-                        "Plataforma interactiva para comparar especificaciones técnicas de motocicletas: potencia, torque, precio, cilindrada y más. Implementación de GraphQL para consultas flexibles y optimizadas. Visualización de datos con gráficos comparativos y filtros avanzados por categoría, marca y rango de precio.",
-                    tech: ["React", "GraphQL", "Node.js", "Chart.js", "PostgreSQL"],
-                    repo: "",
-                    demo: "",
-                    status: "coming-soon",
+                        "Plataforma interactiva para comparar especificaciones técnicas de motocicletas: potencia, torque, precio, cilindrada y más. Implementación de GraphQL para consultas flexibles y optimizadas. Visualización de datos con gráficos comparativos de 2 a 4 motos, filtros avanzados por categoría, marca y rango de precio, y precios en pesos con la TRM del día. Probado con Vitest, integración continua con GitHub Actions y desplegado solo con planes gratuitos.",
+                    tech: ["React", "TypeScript", "GraphQL", "Node.js", "Prisma", "PostgreSQL", "Chart.js"],
+                    repo: "https://github.com/IrumaCode/motocompare",
+                    demo: "https://motocompare.sneyderla.dev",
+                    status: "live",
                 },
                 {
                     title: "GymFlow - Gestión Inteligente de Gimnasio",
@@ -426,11 +426,11 @@ export const translations = {
                     title: "Motorcycle Comparator - MotoCompare",
                     summary: "Motorcycle spec comparator with GraphQL and comparative charts.",
                     description:
-                        "Interactive platform to compare motorcycle technical specifications: power, torque, price, displacement and more. GraphQL implementation for flexible and optimized queries. Data visualization with comparative charts and advanced filters by category, brand and price range.",
-                    tech: ["React", "GraphQL", "Node.js", "Chart.js", "PostgreSQL"],
-                    repo: "",
-                    demo: "",
-                    status: "coming-soon",
+                        "Interactive platform to compare motorcycle technical specifications: power, torque, price, displacement and more. GraphQL implementation for flexible and optimized queries. Data visualization with comparative charts for 2 to 4 motorcycles, advanced filters by category, brand and price range, and prices in Colombian pesos using the daily official exchange rate. Tested with Vitest, continuous integration with GitHub Actions and deployed on free tiers only.",
+                    tech: ["React", "TypeScript", "GraphQL", "Node.js", "Prisma", "PostgreSQL", "Chart.js"],
+                    repo: "https://github.com/IrumaCode/motocompare",
+                    demo: "https://motocompare.sneyderla.dev",
+                    status: "live",
                 },
                 {
                     title: "GymFlow - Smart Gym Management",
