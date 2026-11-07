@@ -124,37 +124,37 @@ export const translations = {
                 rulerLabel: "años en el aula",
                 skills: [
                     {
-                        icon: "🗣️",
+                        icon: "teaching/communication",
                         title: "Comunicación técnica",
                         description:
                             "Traduzco conceptos complejos en explicaciones claras para equipos, clientes y usuarios.",
                     },
                     {
-                        icon: "🧭",
+                        icon: "teaching/mentoring",
                         title: "Mentoría",
                         description:
                             "Formé a más de 1000 estudiantes desde su primera línea de código; hoy lo aplico en code reviews y onboarding.",
                     },
                     {
-                        icon: "👥",
+                        icon: "teaching/team",
                         title: "Liderazgo de equipos",
                         description:
                             "Coordiné proyectos colaborativos con metodologías ágiles, roles claros y entregas iterativas.",
                     },
                     {
-                        icon: "🧩",
+                        icon: "teaching/structure",
                         title: "Pensamiento estructurado",
                         description:
                             "Diseñar currículos me enseñó a dividir problemas grandes en pasos pequeños y verificables.",
                     },
                     {
-                        icon: "🤝",
+                        icon: "teaching/empathy",
                         title: "Empatía",
                         description:
                             "Entender cómo aprende cada persona me ayuda a diseñar interfaces pensando en quien las usa.",
                     },
                     {
-                        icon: "🔄",
+                        icon: "teaching/learning",
                         title: "Aprendizaje continuo",
                         description: "Actualizar contenidos al ritmo de la tecnología se volvió un hábito diario.",
                     },
@@ -342,36 +342,36 @@ export const translations = {
                 rulerLabel: "years in the classroom",
                 skills: [
                     {
-                        icon: "🗣️",
+                        icon: "teaching/communication",
                         title: "Technical communication",
                         description: "I turn complex concepts into clear explanations for teams, clients and users.",
                     },
                     {
-                        icon: "🧭",
+                        icon: "teaching/mentoring",
                         title: "Mentoring",
                         description:
                             "I trained more than 1,000 students from their very first line of code; today I apply it in code reviews and onboarding.",
                     },
                     {
-                        icon: "👥",
+                        icon: "teaching/team",
                         title: "Team leadership",
                         description:
                             "I coordinated collaborative projects with agile methods, clear roles and iterative deliveries.",
                     },
                     {
-                        icon: "🧩",
+                        icon: "teaching/structure",
                         title: "Structured thinking",
                         description:
                             "Designing curricula taught me to break big problems into small, verifiable steps.",
                     },
                     {
-                        icon: "🤝",
+                        icon: "teaching/empathy",
                         title: "Empathy",
                         description:
                             "Understanding how each person learns helps me design interfaces for the people who use them.",
                     },
                     {
-                        icon: "🔄",
+                        icon: "teaching/learning",
                         title: "Continuous learning",
                         description: "Keeping content up to date with technology became a daily habit.",
                     },
