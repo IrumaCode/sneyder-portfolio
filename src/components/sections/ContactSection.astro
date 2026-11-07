@@ -6,7 +6,7 @@ import { profile } from "../../data/profile";
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(Astro.currentLocale);
 
-const EMAIL = profile.email;
+// Por privacidad no se publica el correo: el contacto va por LinkedIn, GitHub y el CV
 const LINKEDIN = profile.links.linkedin;
 const GITHUB = profile.links.github;
 
@@ -28,18 +28,8 @@ const buttonClass =
             {t.contact.subtitle}
         </p>
 
-        <!-- Canales de contacto -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto" data-anim="stagger">
-            <a
-                href={`mailto:${EMAIL}`}
-                class={`${buttonClass} bg-secondary text-fg border-accent/50 hover:border-accent shadow-lg shadow-accent/10 hover:shadow-accent/30`}
-                aria-label={t.contact.emailLabel}
-                data-i18n-attr="aria-label:contact.emailLabel"
-            >
-                <Icon name="logos:google-gmail" class="w-6 h-6" aria-hidden="true" />
-                <span data-i18n="contact.emailButton">{t.contact.emailButton}</span>
-            </a>
-
+        <!-- Canales de contacto: LinkedIn y GitHub en fila, el CV destacado a todo el ancho -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto mb-16" data-anim="stagger">
             <a
                 href={LINKEDIN}
                 target="_blank"
@@ -67,7 +57,7 @@ const buttonClass =
             <a
                 href={cvPaths[lang]}
                 data-route="cv"
-                class={`${buttonClass} bg-accent text-primary border-accent hover:shadow-lg hover:shadow-accent/30`}
+                class={`${buttonClass} sm:col-span-2 bg-accent text-primary border-accent hover:shadow-lg hover:shadow-accent/30`}
             >
                 <svg
                     class="w-5 h-5"
@@ -86,40 +76,6 @@ const buttonClass =
             </a>
         </div>
 
-        <!-- Alternativa sin cliente de correo: copiar la dirección -->
-        <div class="mt-6 mb-16 h-10 flex items-center justify-center">
-            <button
-                type="button"
-                id="copy-email"
-                data-email={EMAIL}
-                class="inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm text-fg-muted hover:text-fg hover:bg-accent/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-                <svg
-                    class="w-4 h-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                >
-                    <rect x="9" y="9" width="13" height="13" rx="2" />
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </svg>
-                <span data-i18n="contact.copyEmail">{t.contact.copyEmail}</span>
-            </button>
-            <p
-                id="copy-email-status"
-                class="text-sm font-semibold text-highlight"
-                role="status"
-                aria-live="polite"
-                hidden
-            >
-                <span data-i18n="contact.copied">{t.contact.copied}</span>
-            </p>
-        </div>
-
         <!-- Footer -->
         <div class="border-t border-accent/10 pt-8 flex flex-col items-center gap-4">
             <Logo class="h-10 w-auto text-fg" idPrefix="logo-footer" />
@@ -130,26 +86,3 @@ const buttonClass =
         </div>
     </div>
 </section>
-
-<script>
-    const COPIED_MS = 2200;
-    const button = document.getElementById("copy-email");
-    const status = document.getElementById("copy-email-status");
-
-    button?.addEventListener("click", async () => {
-        const email = button.dataset.email ?? "";
-        try {
-            await navigator.clipboard.writeText(email);
-        } catch {
-            // Sin permiso de portapapeles: abrimos el cliente de correo como alternativa
-            window.location.href = `mailto:${email}`;
-            return;
-        }
-        button.hidden = true;
-        if (status) status.hidden = false;
-        setTimeout(() => {
-            button.hidden = false;
-            if (status) status.hidden = true;
-        }, COPIED_MS);
-    });
-</script>

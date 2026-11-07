@@ -4,7 +4,6 @@
  */
 export const profile = {
     name: "Sneyder Leguía Arrieta",
-    email: "zsneyder@gmail.com",
     links: {
         linkedin: "https://www.linkedin.com/in/sneyderla/",
         github: "https://github.com/IrumaCode",

@@ -243,11 +243,7 @@ export const translations = {
         contact: {
             title: "¿Colaboramos?",
             subtitle: "Siempre abierto a nuevos desafíos y proyectos épicos. ¡Hagamos algo increíble juntos!",
-            emailButton: "Correo",
             cvButton: "Ver CV",
-            emailLabel: "Enviar un correo",
-            copyEmail: "Copiar correo",
-            copied: "¡Correo copiado!",
             linkedinLabel: "Perfil de LinkedIn",
             githubLabel: "Perfil de GitHub",
             builtWith: "Hecho con Astro, Tailwind CSS y GSAP",
@@ -461,11 +457,7 @@ export const translations = {
         contact: {
             title: "Let's Work Together?",
             subtitle: "Always open to new challenges and collaboration opportunities",
-            emailButton: "Email",
             cvButton: "View resume",
-            emailLabel: "Send an email",
-            copyEmail: "Copy email",
-            copied: "Email copied!",
             linkedinLabel: "LinkedIn profile",
             githubLabel: "GitHub profile",
             builtWith: "Built with Astro, Tailwind CSS & GSAP",
